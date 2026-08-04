@@ -1,0 +1,20 @@
+# ModelSim / simulation artifacts
+work/
+*.wlf
+*.mti
+transcript
+*.vstf
+
+# Icarus / Verilator build outputs
+*.out
+*.vcd
+obj_dir/
+
+# OpenLane / OpenROAD run outputs (keep only final reports you want to show)
+runs/
+
+# OS junk
+.DS_Store
+Thumbs.db
+*.mpf
+*.bak
