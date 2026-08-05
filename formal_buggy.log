@@ -1,0 +1,37 @@
+SBY 11:26:12 [gray_ptr_sync_buggy_bmc] Removing directory '/foss/designs/gray_ptr_sync_buggy_bmc'.
+SBY 11:26:12 [gray_ptr_sync_buggy_bmc] Copy '/foss/designs/gray_ptr_sync_buggy.sv' to '/foss/designs/gray_ptr_sync_buggy_bmc/src/gray_ptr_sync_buggy.sv'.
+SBY 11:26:12 [gray_ptr_sync_buggy_bmc] engine_0: smtbmc yices
+SBY 11:26:12 [gray_ptr_sync_buggy_bmc] base: starting process "cd gray_ptr_sync_buggy_bmc/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] base: finished (returncode=0)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] prep: starting process "cd gray_ptr_sync_buggy_bmc/model; yosys -ql design_prep.log design_prep.ys"
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] prep: finished (returncode=0)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] smt2: starting process "cd gray_ptr_sync_buggy_bmc/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] smt2: finished (returncode=0)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: starting process "cd gray_ptr_sync_buggy_bmc; yosys-smtbmc -s yices --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Solver: yices
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  BMC failed!
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Assert failed in gray_ptr_sync: gray_ptr_sync_buggy.sv:71.9-71.60 (_witness_.check_assert_gray_ptr_sync_buggy_sv_71_21)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Writing trace to VCD file: engine_0/trace.vcd
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Writing trace to Verilog testbench: engine_0/trace_tb.v
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Writing trace to constraints file: engine_0/trace.smtc
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Writing trace to Yosys witness file: engine_0/trace.yw
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: ##   0:00:00  Status: failed
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: finished (returncode=1)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] engine_0: Status returned by engine: FAIL
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] summary: engine_0 (smtbmc yices) returned FAIL
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] summary: counterexample trace: gray_ptr_sync_buggy_bmc/engine_0/trace.vcd
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] summary:   failed assertion gray_ptr_sync._witness_.check_assert_gray_ptr_sync_buggy_sv_71_21 at gray_ptr_sync_buggy.sv:71.9-71.60 step 4
+SBY 11:26:13 [gray_ptr_sync_buggy_bmc] DONE (FAIL, rc=2)
+SBY 11:26:13 The following tasks failed: ['bmc']

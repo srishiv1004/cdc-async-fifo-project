@@ -1,0 +1,16 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+depth 20
+
+[engines]
+smtbmc yices
+
+[script]
+read -sv -DFORMAL gray_ptr_sync.sv
+prep -top gray_ptr_sync
+
+[files]
+gray_ptr_sync.sv

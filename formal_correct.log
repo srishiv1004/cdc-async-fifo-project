@@ -1,0 +1,59 @@
+SBY 11:26:04 [gray_ptr_sync_bmc] Removing directory '/foss/designs/gray_ptr_sync_bmc'.
+SBY 11:26:05 [gray_ptr_sync_bmc] Copy '/foss/designs/gray_ptr_sync.sv' to '/foss/designs/gray_ptr_sync_bmc/src/gray_ptr_sync.sv'.
+SBY 11:26:05 [gray_ptr_sync_bmc] engine_0: smtbmc yices
+SBY 11:26:05 [gray_ptr_sync_bmc] base: starting process "cd gray_ptr_sync_bmc/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 11:26:05 [gray_ptr_sync_bmc] base: finished (returncode=0)
+SBY 11:26:05 [gray_ptr_sync_bmc] prep: starting process "cd gray_ptr_sync_bmc/model; yosys -ql design_prep.log design_prep.ys"
+SBY 11:26:06 [gray_ptr_sync_bmc] prep: finished (returncode=0)
+SBY 11:26:06 [gray_ptr_sync_bmc] smt2: starting process "cd gray_ptr_sync_bmc/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 11:26:06 [gray_ptr_sync_bmc] smt2: finished (returncode=0)
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: starting process "cd gray_ptr_sync_bmc; yosys-smtbmc -s yices --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Solver: yices
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 5..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 5..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 6..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 6..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 7..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 7..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 8..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 8..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 9..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 9..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 10..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 10..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 11..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 11..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 12..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 12..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 13..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 13..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 14..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 14..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 15..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 15..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 16..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 16..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 17..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 17..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 18..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 18..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assumptions in step 19..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Checking assertions in step 19..
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: ##   0:00:00  Status: passed
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: finished (returncode=0)
+SBY 11:26:06 [gray_ptr_sync_bmc] engine_0: Status returned by engine: pass
+SBY 11:26:06 [gray_ptr_sync_bmc] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:01 (1)
+SBY 11:26:06 [gray_ptr_sync_bmc] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 11:26:06 [gray_ptr_sync_bmc] summary: engine_0 (smtbmc yices) returned pass
+SBY 11:26:06 [gray_ptr_sync_bmc] summary: engine_0 did not produce any traces
+SBY 11:26:06 [gray_ptr_sync_bmc] DONE (PASS, rc=0)
