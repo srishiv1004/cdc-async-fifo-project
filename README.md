@@ -60,9 +60,38 @@ project — anyone can claim "I built a CDC-safe FIFO," this is the evidence.
 | Functional simulation | ModelSim / Icarus Verilog, two independent clocks | All 20 words read back correctly |
 | Lint | Verilator (`--lint-only -Wall`) | Clean, 0 warnings ([log](lint_verilator.log)) |
 | Lint | Verible (`verilog-lint`) | Clean, 0 warnings ([log](lint_verible.log)) |
-| Formal CDC check | SymbiYosys (SVA properties) | In progress |
+| Formal CDC check | SymbiYosys, bounded model checking (Yices) | **Passed** on correct design ([log](formal_correct.log)); **caught** a deliberately-injected CDC bug ([log](formal_buggy.log)) |
 | Synthesis → GDSII | Yosys → OpenLane/OpenROAD, sky130 PDK | Planned |
 | DRC / LVS | Magic / Netgen | Planned |
+
+## Formal CDC verification
+
+The pointer/synchronizer logic was extracted from `async_fifo.sv` into its own
+module, `gray_ptr_sync.sv`, deliberately excluding the memory array - proving
+properties on the full FIFO (with memory) overwhelmed the SMT solver, while
+the extracted synchronizer alone verifies in seconds. This mirrors how real
+CDC signoff tools scope their checks to the synchronizer itself.
+
+Two properties are formally proven (see `` `ifdef FORMAL `` block in
+`gray_ptr_sync.sv`):
+
+1. The signal fed into the synchronizer changes by at most one bit per
+   source-clock cycle - the property that makes gray coding safe for
+   crossing clock domains.
+2. The synchronizer is genuinely two register stages deep.
+
+`gray_ptr_sync_buggy.sv` is an intentionally broken copy - the synchronizer
+is fed the raw binary pointer instead of the gray-coded one, a classic real
+CDC mistake. SymbiYosys catches this and fails in a handful of cycles
+([log](formal_buggy.log)), confirming the check has real teeth rather than
+passing on the correct design by coincidence.
+
+One property that was tried and *removed*: asserting the synchronized output
+itself changes by at most one bit between destination-clock samples. This
+was disproven by SymbiYosys in ~7 seconds - it implicitly assumed the
+destination clock is always at least as fast as the source, which isn't true
+for two fully independent clocks. Left out deliberately rather than patched
+with an artificial rate assumption.
 
 ## Tools
 
