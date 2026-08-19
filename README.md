@@ -2,13 +2,24 @@
 
 A UART-to-memory bridge that deliberately forces a clock-domain-crossing
 (CDC) problem: bytes arrive on a slow UART clock and must safely cross into
-a faster memory-write clock domain. Verified using lint, functional
-simulation, and formal CDC property checking, and being carried through
-synthesis and physical design on an open-source RTL-to-GDSII flow.
+a faster memory-write clock domain. Taken the full distance from RTL through
+lint, formal CDC verification, functional simulation, synthesis, place and
+route, and physical verification (DRC/LVS/Antenna), producing a final,
+manufacturable GDSII layout.
 
-RTL design, integration, functional verification, lint, and formal CDC
-verification are complete. Synthesis, place & route, and physical
-verification (DRC/LVS/ERC) are in progress.
+**The full RTL-to-GDSII flow is complete.** Final die: 341.70 x 360.43 um
+(123,159 um^2), DRC/LVS/Antenna all passed.
+
+## Final layout
+
+![Chip layout in KLayout](top_layout_klayout.png)
+
+Viewed in KLayout (the standard open-source layout viewer) with sky130
+layer colors: red/orange are Metal2/Metal3 routing, the dense grid
+underneath is standard cell rows, and the dashed purple outline is the die
+boundary. Port names (`mem_rd_data[0:7]`, `mem_rd_addr[0:7]`, `rd_clk`,
+etc.) are visible along the right edge where they connect to the outside
+world.
 
 ## Why an async FIFO
 
@@ -75,10 +86,31 @@ project — anyone can claim "I built a CDC-safe FIFO," this is the evidence.
 | Lint | Verilator (`--lint-only -Wall`) | Clean, 0 warnings across all blocks ([FIFO](lint_verilator.log), [top-level](lint_top_verilator.log)) |
 | Lint | Verible (`verilog-lint`) | Clean, 0 warnings across all blocks ([FIFO](lint_verible.log), [top-level](lint_top_verible.log)) |
 | Formal CDC check | SymbiYosys, bounded model checking (Yices) | **Passed** on correct design ([log](formal_correct.log)); **caught** a deliberately-injected CDC bug ([log](formal_buggy.log)) |
-| Synthesis → GDSII | Yosys → OpenLane/OpenROAD, sky130 PDK | Next |
-| DRC (design rule check) | Magic | Planned |
-| LVS (layout vs. schematic) | Netgen | Planned |
-| ERC (electrical rule check) | Magic / OpenROAD | Planned |
+| Synthesis | Yosys, targeting sky130_fd_sc_hd | **Complete.** 4,549 cells, 88,881 um^2 cell area (89% of which is the flip-flop-based memory model - see note below) ([log](synth_report.log)) |
+| Place & route | LibreLane (OpenLane 2 successor), sky130A PDK | **Complete.** Final die: 341.70 x 360.43 um (123,159 um^2) |
+| DRC (design rule check) | Magic (via LibreLane) | **Passed** |
+| LVS (layout vs. schematic) | Netgen (via LibreLane) | **Passed** |
+| Antenna check | LibreLane manufacturability report | **Passed** |
+| GDSII output | — | **Produced.** `openlane_results/top.gds`, valid GDSII Stream v2.88 |
+
+### A note on area
+
+The synthesized design's cell area is dominated (89%) by `mem_model.sv`,
+which is built from plain flip-flops (256 x 8 = 2,048 registers) rather than
+a dedicated SRAM macro. This is a known, deliberate simplification - real
+designs use compiled SRAM for any memory past a few dozen words, since
+SRAM bit cells are far denser than flip-flops built from standard logic
+cells. The FIFO, UART, and controller logic together total under 10,000
+um^2, which is the more representative number for the actual designed
+logic. Swapping in a sky130 SRAM macro and re-running synthesis/PnR as a
+before/after area comparison is a planned follow-up (see below).
+
+## Planned follow-up
+
+- **SRAM macro comparison**: replace `mem_model.sv`'s flip-flop array with a
+  sky130 SRAM macro (e.g. `sky130_sram_1kbyte_1rw1r_8x1024_8`) and re-run
+  synthesis + place & route, to produce a documented before/after area
+  comparison quantifying the flip-flop-vs-SRAM area tradeoff.
 
 ## Formal CDC verification
 
