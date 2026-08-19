@@ -1,15 +1,14 @@
-# CDC-Safe Async FIFO — RTL to GDSII Project
+# CDC-Safe UART-to-Memory Bridge — RTL to GDSII Project
 
-A dual-clock-domain async FIFO built as the foundation of a larger project: a
-UART-to-memory bridge that deliberately forces a clock-domain-crossing (CDC)
-problem, verified using lint, functional simulation, and (in progress) formal
-CDC property checking, then carried through synthesis and physical design on
-an open-source RTL-to-GDSII flow.
+A UART-to-memory bridge that deliberately forces a clock-domain-crossing
+(CDC) problem: bytes arrive on a slow UART clock and must safely cross into
+a faster memory-write clock domain. Verified using lint, functional
+simulation, and formal CDC property checking, and being carried through
+synthesis and physical design on an open-source RTL-to-GDSII flow.
 
-This repo currently covers the CDC-critical block — the async FIFO — through
-RTL design, functional verification, and lint. Later stages (formal CDC
-checks, synthesis, place & route, DRC/LVS) will be added as the project
-progresses.
+RTL design, integration, functional verification, lint, and formal CDC
+verification are complete. Synthesis, place & route, and physical
+verification (DRC/LVS/ERC) are in progress.
 
 ## Why an async FIFO
 
@@ -22,12 +21,26 @@ pointers, 2-flop synchronizers, and registered full/empty flags.
 
 ## Design
 
+- **`uart_rx.sv`** — UART receiver (8N1 framing), slow write-clock domain.
+  Mid-bit sampling, start-bit glitch rejection, framing error detection.
 - **`async_fifo.sv`** — parameterized async FIFO (`DATA_WIDTH`, `ADDR_WIDTH`)
   with gray-coded write/read pointers, 2-flop synchronizers crossing the CDC
-  boundary, and registered `wr_full` / `rd_empty` flags.
-- **`tb_async_fifo.sv`** — testbench driving the FIFO with two independent,
-  non-integer-ratio clocks (25 MHz write side, ~100.7 MHz read side) to
-  exercise real phase-varying crossings, with a self-checking scoreboard.
+  boundary, and registered `wr_full` / `rd_empty` flags. This is the CDC
+  boundary of the whole design.
+- **`write_ctrl.sv`** — fast read-clock domain, greedily consumes from the
+  FIFO and writes each byte into memory at an auto-incrementing address.
+- **`mem_model.sv`** — simple synchronous memory with a write port (driven
+  by `write_ctrl`) and a read port (for verification / future host access).
+- **`top.sv`** — wires the above into one complete system:
+  `uart_rx (wr_clk) -> async_fifo (CDC boundary) -> write_ctrl (rd_clk) -> mem_model`.
+
+Testbenches: `tb_async_fifo.sv`, `tb_uart_rx.sv`, `tb_write_ctrl.sv` test
+each block individually; `tb_top.sv` drives real UART serial bits through
+the entire chain end-to-end and verifies the bytes land correctly in memory
+after crossing the CDC boundary - all 4 bytes of a test pattern (`DE AD BE
+EF`) traveled UART -> FIFO -> memory correctly on the first integration
+attempt, since each block was already individually verified before wiring
+them together.
 
 ## Bugs found and fixed along the way
 
@@ -57,12 +70,15 @@ project — anyone can claim "I built a CDC-safe FIFO," this is the evidence.
 
 | Stage | Tool | Result |
 |---|---|---|
-| Functional simulation | ModelSim / Icarus Verilog, two independent clocks | All 20 words read back correctly |
-| Lint | Verilator (`--lint-only -Wall`) | Clean, 0 warnings ([log](lint_verilator.log)) |
-| Lint | Verible (`verilog-lint`) | Clean, 0 warnings ([log](lint_verible.log)) |
+| Functional simulation — per block | ModelSim / Icarus Verilog | FIFO: 20/20 words correct. UART RX: 2/2 test bytes decoded correctly. Write controller: 5/5 bytes written to memory correctly. |
+| Functional simulation — full integration | Icarus Verilog, `tb_top.sv`, two independent clocks | All 4 bytes of test pattern traveled UART → FIFO → memory correctly, end-to-end |
+| Lint | Verilator (`--lint-only -Wall`) | Clean, 0 warnings across all blocks ([FIFO](lint_verilator.log), [top-level](lint_top_verilator.log)) |
+| Lint | Verible (`verilog-lint`) | Clean, 0 warnings across all blocks ([FIFO](lint_verible.log), [top-level](lint_top_verible.log)) |
 | Formal CDC check | SymbiYosys, bounded model checking (Yices) | **Passed** on correct design ([log](formal_correct.log)); **caught** a deliberately-injected CDC bug ([log](formal_buggy.log)) |
-| Synthesis → GDSII | Yosys → OpenLane/OpenROAD, sky130 PDK | Planned |
-| DRC / LVS | Magic / Netgen | Planned |
+| Synthesis → GDSII | Yosys → OpenLane/OpenROAD, sky130 PDK | Next |
+| DRC (design rule check) | Magic | Planned |
+| LVS (layout vs. schematic) | Netgen | Planned |
+| ERC (electrical rule check) | Magic / OpenROAD | Planned |
 
 ## Formal CDC verification
 
@@ -102,11 +118,15 @@ simulation cross-checked in both ModelSim and Icarus Verilog.
 ## Running it yourself
 
 ```bash
-# Functional simulation (Icarus Verilog)
+# Functional simulation - individual FIFO
 iverilog -g2012 -o sim.out async_fifo.sv tb_async_fifo.sv
 vvp sim.out
 
+# Functional simulation - full end-to-end integration
+iverilog -g2012 -o top_sim.out top.sv async_fifo.sv uart_rx.sv write_ctrl.sv mem_model.sv tb_top.sv
+vvp top_sim.out
+
 # Lint
-verilator --lint-only -Wall -sv async_fifo.sv
-verible-verilog-lint async_fifo.sv
+verilator --lint-only -Wall -sv top.sv async_fifo.sv uart_rx.sv write_ctrl.sv mem_model.sv
+verible-verilog-lint top.sv async_fifo.sv uart_rx.sv write_ctrl.sv mem_model.sv
 ```
