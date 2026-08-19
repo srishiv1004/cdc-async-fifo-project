@@ -7,8 +7,20 @@ lint, formal CDC verification, functional simulation, synthesis, place and
 route, and physical verification (DRC/LVS/Antenna), producing a final,
 manufacturable GDSII layout.
 
-**The full RTL-to-GDSII flow is complete.** Final die: 341.70 x 360.43 um
-(123,159 um^2), DRC/LVS/Antenna all passed.
+**The full RTL-to-GDSII flow is complete, verified against the correct
+sky130A PDK.** Final die: 233.26 x 243.98 um (56,910.77 um^2), DRC/LVS/Antenna
+all passed.
+
+> **Note on a caught bug**: an earlier physical-implementation run silently
+> defaulted to the wrong PDK (IHP's SG13G2, this environment's default,
+> rather than sky130A) because the LibreLane config never explicitly set
+> `PDK`/`STD_CELL_LIBRARY`. DRC/LVS "passed" on that run, but against the
+> wrong process's rule deck - meaning it wasn't actually a valid result.
+> Caught by inspecting the final GDS's actual cell names (`sg13g2_*` instead
+> of `sky130_fd_sc_hd__*`) rather than trusting the pass/fail status alone.
+> Fixed by explicitly setting `"PDK": "sky130A"` and
+> `"STD_CELL_LIBRARY": "sky130_fd_sc_hd"` in config.json, then re-running.
+> All numbers below are from the corrected, verified run.
 
 ## Final layout
 
@@ -87,7 +99,7 @@ project — anyone can claim "I built a CDC-safe FIFO," this is the evidence.
 | Lint | Verible (`verilog-lint`) | Clean, 0 warnings across all blocks ([FIFO](lint_verible.log), [top-level](lint_top_verible.log)) |
 | Formal CDC check | SymbiYosys, bounded model checking (Yices) | **Passed** on correct design ([log](formal_correct.log)); **caught** a deliberately-injected CDC bug ([log](formal_buggy.log)) |
 | Synthesis | Yosys, targeting sky130_fd_sc_hd | **Complete.** 4,549 cells, 88,881 um^2 cell area (89% of which is the flip-flop-based memory model - see note below) ([log](synth_report.log)) |
-| Place & route | LibreLane (OpenLane 2 successor), sky130A PDK | **Complete.** Final die: 341.70 x 360.43 um (123,159 um^2) |
+| Place & route | LibreLane (OpenLane 2 successor), sky130A PDK | **Complete.** Final die: 233.26 x 243.98 um (56,910.77 um^2) - verified sky130_fd_sc_hd cells, see note above |
 | DRC (design rule check) | Magic (via LibreLane) | **Passed** |
 | LVS (layout vs. schematic) | Netgen (via LibreLane) | **Passed** |
 | Antenna check | LibreLane manufacturability report | **Passed** |
