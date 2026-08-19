@@ -1,0 +1,2982 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66 (git sha1 86f2ddebc-dirty, g++ 13.3.0-6ubuntu2~24.04.1 -fPIC -O3)
+
+-- Running command `
+read_verilog -sv top.sv async_fifo.sv uart_rx.sv write_ctrl.sv mem_model.sv
+hierarchy -check -top top
+synth -top top
+dfflibmap -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+clean
+splitnets -ports
+opt_clean
+write_verilog synth_netlist.v
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+' --
+
+1. Executing Verilog-2005 frontend: top.sv
+Parsing SystemVerilog input from `top.sv' to AST representation.
+Generating RTLIL representation for module `\top'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: async_fifo.sv
+Parsing SystemVerilog input from `async_fifo.sv' to AST representation.
+Generating RTLIL representation for module `\async_fifo'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: uart_rx.sv
+Parsing SystemVerilog input from `uart_rx.sv' to AST representation.
+Generating RTLIL representation for module `\uart_rx'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: write_ctrl.sv
+Parsing SystemVerilog input from `write_ctrl.sv' to AST representation.
+Generating RTLIL representation for module `\write_ctrl'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: mem_model.sv
+Parsing SystemVerilog input from `mem_model.sv' to AST representation.
+Generating RTLIL representation for module `\mem_model'.
+Successfully finished Verilog frontend.
+
+6. Executing HIERARCHY pass (managing design hierarchy).
+
+6.1. Analyzing design hierarchy..
+Top module:  \top
+Used module:     \mem_model
+Used module:     \write_ctrl
+Used module:     \async_fifo
+Used module:     \uart_rx
+Parameter \DATA_WIDTH = 8
+Parameter \ADDR_WIDTH = 8
+
+6.2. Executing AST frontend in derive mode using pre-parsed AST for module `\mem_model'.
+Parameter \DATA_WIDTH = 8
+Parameter \ADDR_WIDTH = 8
+Generating RTLIL representation for module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Parameter \DATA_WIDTH = 8
+Parameter \MEM_ADDR_WIDTH = 8
+
+6.3. Executing AST frontend in derive mode using pre-parsed AST for module `\write_ctrl'.
+Parameter \DATA_WIDTH = 8
+Parameter \MEM_ADDR_WIDTH = 8
+Generating RTLIL representation for module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Parameter \DATA_WIDTH = 8
+Parameter \ADDR_WIDTH = 4
+
+6.4. Executing AST frontend in derive mode using pre-parsed AST for module `\async_fifo'.
+Parameter \DATA_WIDTH = 8
+Parameter \ADDR_WIDTH = 4
+Generating RTLIL representation for module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+
+6.5. Analyzing design hierarchy..
+Top module:  \top
+Used module:     $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+Used module:     $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+Used module:     $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+Used module:     \uart_rx
+
+6.6. Analyzing design hierarchy..
+Top module:  \top
+Used module:     $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+Used module:     $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+Used module:     $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+Used module:     \uart_rx
+Removing unused module `\mem_model'.
+Removing unused module `\write_ctrl'.
+Removing unused module `\async_fifo'.
+Removed 3 unused modules.
+
+7. Executing SYNTH pass.
+
+7.1. Executing HIERARCHY pass (managing design hierarchy).
+
+7.1.1. Analyzing design hierarchy..
+Top module:  \top
+Used module:     $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+Used module:     $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+Used module:     $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+Used module:     \uart_rx
+
+7.1.2. Analyzing design hierarchy..
+Top module:  \top
+Used module:     $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+Used module:     $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+Used module:     $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+Used module:     \uart_rx
+Removed 0 unused modules.
+
+7.2. Executing PROC pass (convert processes to netlists).
+
+7.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+7.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:145$129 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:134$127 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:120$125 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:99$121 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:86$116 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:72$105 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$async_fifo.sv:62$103 in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Marked 1 switch rules as full_case in process $proc$write_ctrl.sv:24$96 in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Marked 8 switch rules as full_case in process $proc$uart_rx.sv:69$41 in module uart_rx.
+Marked 1 switch rules as full_case in process $proc$uart_rx.sv:38$36 in module uart_rx.
+Marked 1 switch rules as full_case in process $proc$mem_model.sv:19$87 in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Removed a total of 0 dead cases.
+
+7.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 14 redundant assignments.
+Promoted 10 assignments to connections.
+
+7.2.4. Executing PROC_INIT pass (extract init attributes).
+
+7.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \wr_rst_n in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:145$129'.
+Found async reset \rd_rst_n in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:134$127'.
+Found async reset \rd_rst_n in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:120$125'.
+Found async reset \rd_rst_n in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:99$121'.
+Found async reset \wr_rst_n in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:86$116'.
+Found async reset \wr_rst_n in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:62$103'.
+Found async reset \rst_n in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+Found async reset \rst_n in `\uart_rx.$proc$uart_rx.sv:69$41'.
+Found async reset \rst_n in `\uart_rx.$proc$uart_rx.sv:38$36'.
+
+7.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~10 debug messages>
+
+7.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:145$129'.
+     1/2: $0\rd_gray_sync2[4:0]
+     2/2: $0\rd_gray_sync1[4:0]
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:134$127'.
+     1/2: $0\wr_gray_sync2[4:0]
+     2/2: $0\wr_gray_sync1[4:0]
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:120$125'.
+     1/1: $0\rd_empty[0:0]
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:99$121'.
+     1/2: $0\rd_gray[4:0]
+     2/2: $0\rd_bin[4:0]
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:86$116'.
+     1/1: $0\wr_full[0:0]
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:72$105'.
+     1/3: $1$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$113
+     2/3: $1$memwr$\mem$async_fifo.sv:74$99_DATA[7:0]$112
+     3/3: $1$memwr$\mem$async_fifo.sv:74$99_ADDR[3:0]$111
+Creating decoders for process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:62$103'.
+     1/2: $0\wr_gray[4:0]
+     2/2: $0\wr_bin[4:0]
+Creating decoders for process `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+     1/4: $0\mem_wr_en[0:0]
+     2/4: $0\wr_addr[7:0]
+     3/4: $0\mem_wr_data[7:0]
+     4/4: $0\mem_wr_addr[7:0]
+Creating decoders for process `\uart_rx.$proc$uart_rx.sv:69$41'.
+     1/12: $3$lookahead\rx_shift_reg$40[7:0]$58
+     2/12: $3$bitselwrite$pos$uart_rx.sv:111$35[2:0]$57
+     3/12: $2$lookahead\rx_shift_reg$40[7:0]$48
+     4/12: $2$bitselwrite$pos$uart_rx.sv:111$35[2:0]$47
+     5/12: $1$lookahead\rx_shift_reg$40[7:0]$46
+     6/12: $1$bitselwrite$pos$uart_rx.sv:111$35[2:0]$45
+     7/12: $0\rx_valid[0:0]
+     8/12: $0\bit_index[2:0]
+     9/12: $0\clk_count[15:0]
+    10/12: $0\state[2:0]
+    11/12: $0\framing_error[0:0]
+    12/12: $0\rx_data[7:0]
+Creating decoders for process `\uart_rx.$proc$uart_rx.sv:38$36'.
+     1/2: $0\rx_sync2[0:0]
+     2/2: $0\rx_sync1[0:0]
+Creating decoders for process `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+     1/3: $1$memwr$\mem$mem_model.sv:20$86_EN[7:0]$93
+     2/3: $1$memwr$\mem$mem_model.sv:20$86_DATA[7:0]$92
+     3/3: $1$memwr$\mem$mem_model.sv:20$86_ADDR[7:0]$91
+
+7.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+7.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\rd_gray_sync1' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:145$129'.
+  created $adff cell `$procdff$254' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\rd_gray_sync2' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:145$129'.
+  created $adff cell `$procdff$259' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\wr_gray_sync1' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:134$127'.
+  created $adff cell `$procdff$264' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\wr_gray_sync2' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:134$127'.
+  created $adff cell `$procdff$269' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\rd_empty' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:120$125'.
+  created $adff cell `$procdff$274' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\rd_bin' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:99$121'.
+  created $adff cell `$procdff$279' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\rd_gray' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:99$121'.
+  created $adff cell `$procdff$284' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\wr_full' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:86$116'.
+  created $adff cell `$procdff$289' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$memwr$\mem$async_fifo.sv:74$99_ADDR' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:72$105'.
+  created $dff cell `$procdff$290' with positive edge clock.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$memwr$\mem$async_fifo.sv:74$99_DATA' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:72$105'.
+  created $dff cell `$procdff$291' with positive edge clock.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$memwr$\mem$async_fifo.sv:74$99_EN' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:72$105'.
+  created $dff cell `$procdff$292' with positive edge clock.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\wr_bin' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:62$103'.
+  created $adff cell `$procdff$297' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.\wr_gray' using process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:62$103'.
+  created $adff cell `$procdff$302' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.\mem_wr_en' using process `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+  created $adff cell `$procdff$307' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.\mem_wr_addr' using process `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+  created $adff cell `$procdff$312' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.\mem_wr_data' using process `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+  created $adff cell `$procdff$317' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.\wr_addr' using process `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+  created $adff cell `$procdff$322' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\rx_valid' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$327' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\rx_data' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$332' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\framing_error' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$337' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\state' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$342' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\clk_count' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$347' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\bit_index' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$352' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\rx_shift_reg' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$357' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.$bitselwrite$pos$uart_rx.sv:111$35' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$362' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.$lookahead\rx_shift_reg$40' using process `\uart_rx.$proc$uart_rx.sv:69$41'.
+  created $adff cell `$procdff$367' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\rx_sync1' using process `\uart_rx.$proc$uart_rx.sv:38$36'.
+  created $adff cell `$procdff$372' with positive edge clock and positive level reset.
+Creating register for signal `\uart_rx.\rx_sync2' using process `\uart_rx.$proc$uart_rx.sv:38$36'.
+  created $adff cell `$procdff$377' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.\rd_data' using process `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+  created $dff cell `$procdff$378' with positive edge clock.
+Creating register for signal `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$memwr$\mem$mem_model.sv:20$86_ADDR' using process `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+  created $dff cell `$procdff$379' with positive edge clock.
+Creating register for signal `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$memwr$\mem$mem_model.sv:20$86_DATA' using process `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+  created $dff cell `$procdff$380' with positive edge clock.
+Creating register for signal `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$memwr$\mem$mem_model.sv:20$86_EN' using process `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+  created $dff cell `$procdff$381' with positive edge clock.
+
+7.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+7.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:145$129'.
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:134$127'.
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:120$125'.
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:99$121'.
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:86$116'.
+Found and cleaned up 1 empty switch in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:72$105'.
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:72$105'.
+Removing empty process `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$proc$async_fifo.sv:62$103'.
+Found and cleaned up 1 empty switch in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+Removing empty process `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.$proc$write_ctrl.sv:24$96'.
+Found and cleaned up 7 empty switches in `\uart_rx.$proc$uart_rx.sv:69$41'.
+Removing empty process `uart_rx.$proc$uart_rx.sv:69$41'.
+Removing empty process `uart_rx.$proc$uart_rx.sv:38$36'.
+Found and cleaned up 1 empty switch in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+Removing empty process `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.$proc$mem_model.sv:19$87'.
+Cleaned up 10 empty switches.
+
+7.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+<suppressed ~22 debug messages>
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+<suppressed ~11 debug messages>
+Optimizing module uart_rx.
+<suppressed ~30 debug messages>
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 49 unused cells and 155 unused wires.
+<suppressed ~54 debug messages>
+
+7.5. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo...
+Checking module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl...
+Checking module uart_rx...
+Checking module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model...
+Checking module top...
+Found and reported 0 problems.
+
+7.6. Executing OPT pass (performing simple optimizations).
+
+7.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 9 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 67 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 53 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 52 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+<suppressed ~45 debug messages>
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 15 cells.
+
+7.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$152.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 1 multiplexer ports.
+<suppressed ~49 debug messages>
+
+7.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+    Consolidated identical input bits for $mux cell $procmux$132:
+      Old ports: A=8'00000000, B=8'11111111, Y=$0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108
+      New ports: A=1'0, B=1'1, Y=$0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0]
+      New connections: $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [7:1] = { $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] $0$memwr$\mem$async_fifo.sv:74$99_EN[7:0]$108 [0] }
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+    Consolidated identical input bits for $mux cell $procmux$242:
+      Old ports: A=8'00000000, B=8'11111111, Y=$0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90
+      New ports: A=1'0, B=1'1, Y=$0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0]
+      New connections: $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [7:1] = { $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] $0$memwr$\mem$mem_model.sv:20$86_EN[7:0]$90 [0] }
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 2 changes.
+
+7.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 9 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 51 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 16 unused wires.
+<suppressed ~1 debug messages>
+
+7.6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~48 debug messages>
+
+7.6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 9 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 51 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.6.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.6.16. Finished fast OPT passes. (There is nothing left to do.)
+
+7.7. Executing FSM pass (extract and optimize FSM).
+
+7.7.1. Executing FSM_DETECT pass (finding FSMs in design).
+Found FSM state register uart_rx.state.
+
+7.7.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+Extracting FSM `\state' from module `\uart_rx'.
+  found $adff cell for state register: $procdff$342
+  root of input selection tree: $0\state[2:0]
+  found reset state: 3'000 (from async reset)
+  found ctrl input: $procmux$193_CMP
+  found ctrl input: $procmux$153_CMP
+  found ctrl input: $procmux$204_CMP
+  found ctrl input: $procmux$186_CMP
+  found ctrl input: $lt$uart_rx.sv:107$56_Y
+  found state code: 3'100
+  found ctrl input: $lt$uart_rx.sv:112$67_Y
+  found state code: 3'011
+  found ctrl input: $eq$uart_rx.sv:93$52_Y
+  found ctrl input: \rx_sync2
+  found state code: 3'010
+  found state code: 3'001
+  found ctrl output: $procmux$153_CMP
+  found ctrl output: $procmux$204_CMP
+  found ctrl output: $procmux$186_CMP
+  found ctrl output: $procmux$193_CMP
+  found ctrl output: $procmux$174_CMP
+  ctrl inputs: { $lt$uart_rx.sv:112$67_Y $lt$uart_rx.sv:107$56_Y $eq$uart_rx.sv:93$52_Y \rx_sync2 }
+  ctrl outputs: { $procmux$204_CMP $procmux$193_CMP $procmux$186_CMP $procmux$174_CMP $procmux$153_CMP $0\state[2:0] }
+  transition:      3'000 4'---0 ->      3'001 8'00100001
+  transition:      3'000 4'---1 ->      3'000 8'00100000
+  transition:      3'100 4'---- ->      3'000 8'00010000
+  transition:      3'010 4'00-- ->      3'011 8'00001011
+  transition:      3'010 4'10-- ->      3'010 8'00001010
+  transition:      3'010 4'-1-- ->      3'010 8'00001010
+  transition:      3'001 4'--0- ->      3'001 8'10000001
+  transition:      3'001 4'--10 ->      3'010 8'10000010
+  transition:      3'001 4'--11 ->      3'000 8'10000000
+  transition:      3'011 4'-0-- ->      3'100 8'01000100
+  transition:      3'011 4'-1-- ->      3'011 8'01000011
+
+7.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+Optimizing FSM `$fsm$\state$384' from module `\uart_rx'.
+
+7.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 13 unused cells and 13 unused wires.
+<suppressed ~14 debug messages>
+
+7.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+Optimizing FSM `$fsm$\state$384' from module `\uart_rx'.
+  Removing unused output signal $0\state[2:0] [0].
+  Removing unused output signal $0\state[2:0] [1].
+  Removing unused output signal $0\state[2:0] [2].
+
+7.7.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+Recoding FSM `$fsm$\state$384' from module `\uart_rx' using `auto' encoding:
+  mapping auto encoding to `one-hot` for this FSM.
+  000 -> ----1
+  100 -> ---1-
+  010 -> --1--
+  001 -> -1---
+  011 -> 1----
+
+7.7.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+FSM `$fsm$\state$384' from module `uart_rx':
+-------------------------------------
+
+  Information on FSM $fsm$\state$384 (\state):
+
+  Number of input signals:    4
+  Number of output signals:   5
+  Number of state bits:       5
+
+  Input signals:
+    0: \rx_sync2
+    1: $eq$uart_rx.sv:93$52_Y
+    2: $lt$uart_rx.sv:107$56_Y
+    3: $lt$uart_rx.sv:112$67_Y
+
+  Output signals:
+    0: $procmux$153_CMP
+    1: $procmux$174_CMP
+    2: $procmux$186_CMP
+    3: $procmux$193_CMP
+    4: $procmux$204_CMP
+
+  State encoding:
+    0:    5'----1  <RESET STATE>
+    1:    5'---1-
+    2:    5'--1--
+    3:    5'-1---
+    4:    5'1----
+
+  Transition Table (state_in, ctrl_in, state_out, ctrl_out):
+      0:     0 4'---1   ->     0 5'00100
+      1:     0 4'---0   ->     3 5'00100
+      2:     1 4'----   ->     0 5'00010
+      3:     2 4'10--   ->     2 5'00001
+      4:     2 4'-1--   ->     2 5'00001
+      5:     2 4'00--   ->     4 5'00001
+      6:     3 4'--11   ->     0 5'10000
+      7:     3 4'--10   ->     2 5'10000
+      8:     3 4'--0-   ->     3 5'10000
+      9:     4 4'-0--   ->     1 5'01000
+     10:     4 4'-1--   ->     4 5'01000
+
+-------------------------------------
+
+7.7.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+Mapping FSM `$fsm$\state$384' from module `\uart_rx'.
+
+7.8. Executing OPT pass (performing simple optimizations).
+
+7.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+<suppressed ~7 debug messages>
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 9 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 60 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~40 debug messages>
+
+7.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 9 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 60 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$312 ($adff) from module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl (D = \wr_addr, Q = \mem_wr_addr).
+Adding EN signal on $procdff$322 ($adff) from module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl (D = $add$write_ctrl.sv:36$98_Y, Q = \wr_addr).
+Adding EN signal on $procdff$317 ($adff) from module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl (D = \rd_data, Q = \mem_wr_data).
+Adding EN signal on $procdff$337 ($adff) from module uart_rx (D = $logic_not$uart_rx.sv:126$72_Y, Q = \framing_error).
+Adding EN signal on $procdff$352 ($adff) from module uart_rx (D = $0\bit_index[2:0], Q = \bit_index).
+Adding EN signal on $procdff$347 ($adff) from module uart_rx (D = $0\clk_count[15:0], Q = \clk_count).
+Adding EN signal on $procdff$332 ($adff) from module uart_rx (D = \rx_shift_reg, Q = \rx_data).
+Adding EN signal on $procdff$357 ($adff) from module uart_rx (D = $or$uart_rx.sv:111$66_Y, Q = \rx_shift_reg).
+
+7.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 8 unused cells and 19 unused wires.
+<suppressed ~10 debug messages>
+
+7.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+<suppressed ~2 debug messages>
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~26 debug messages>
+
+7.8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 66 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 64 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 2 cells.
+
+7.8.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+7.8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.8.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.8.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~26 debug messages>
+
+7.8.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.8.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 64 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.8.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.8.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.8.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.8.23. Finished fast OPT passes. (There is nothing left to do.)
+
+7.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 4 bits (of 5) from port B of cell $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$add$async_fifo.sv:59$100 ($add).
+Removed top 1 bits (of 5) from port A of cell $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$xor$async_fifo.sv:60$102 ($xor).
+Removed top 4 bits (of 5) from port B of cell $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$add$async_fifo.sv:96$118 ($add).
+Removed top 1 bits (of 5) from port A of cell $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.$xor$async_fifo.sv:97$120 ($xor).
+Removed top 1 bits (of 2) from port B of cell uart_rx.$auto$opt_dff.cc:235:make_patterns_logic$460 ($ne).
+Removed top 17 bits (of 32) from port A of cell uart_rx.$sub$uart_rx.sv:93$51 ($sub).
+Removed top 31 bits (of 32) from port B of cell uart_rx.$sub$uart_rx.sv:93$51 ($sub).
+Removed top 16 bits (of 32) from port Y of cell uart_rx.$sub$uart_rx.sv:93$51 ($sub).
+Converting cell uart_rx.$neg$uart_rx.sv:111$64 ($neg) from signed to unsigned.
+Removed top 1 bits (of 4) from port A of cell uart_rx.$neg$uart_rx.sv:111$64 ($neg).
+Removed top 2 bits (of 3) from port B of cell uart_rx.$add$uart_rx.sv:113$68 ($add).
+Removed top 31 bits (of 32) from port B of cell uart_rx.$sub$uart_rx.sv:123$69 ($sub).
+Removed top 15 bits (of 32) from port Y of cell uart_rx.$sub$uart_rx.sv:123$69 ($sub).
+Removed top 15 bits (of 16) from port B of cell uart_rx.$add$uart_rx.sv:124$71 ($add).
+
+7.10. Executing PEEPOPT pass (run peephole optimizers).
+
+7.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.12. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo:
+  creating $macc model for $add$async_fifo.sv:96$118 ($add).
+  creating $macc model for $add$async_fifo.sv:59$100 ($add).
+  creating $alu model for $macc $add$async_fifo.sv:59$100.
+  creating $alu model for $macc $add$async_fifo.sv:96$118.
+  creating $alu cell for $add$async_fifo.sv:96$118: $auto$alumacc.cc:512:replace_alu$469
+  creating $alu cell for $add$async_fifo.sv:59$100: $auto$alumacc.cc:512:replace_alu$472
+  created 2 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl:
+  creating $macc model for $add$write_ctrl.sv:36$98 ($add).
+  creating $alu model for $macc $add$write_ctrl.sv:36$98.
+  creating $alu cell for $add$write_ctrl.sv:36$98: $auto$alumacc.cc:512:replace_alu$475
+  created 1 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module uart_rx:
+  creating $macc model for $add$uart_rx.sv:124$71 ($add).
+  creating $macc model for $sub$uart_rx.sv:123$69 ($sub).
+  creating $macc model for $add$uart_rx.sv:113$68 ($add).
+  creating $macc model for $neg$uart_rx.sv:111$64 ($neg).
+  creating $macc model for $sub$uart_rx.sv:93$51 ($sub).
+  creating $alu model for $macc $sub$uart_rx.sv:93$51.
+  creating $alu model for $macc $neg$uart_rx.sv:111$64.
+  creating $alu model for $macc $add$uart_rx.sv:113$68.
+  creating $alu model for $macc $sub$uart_rx.sv:123$69.
+  creating $alu model for $macc $add$uart_rx.sv:124$71.
+  creating $alu model for $lt$uart_rx.sv:123$70 ($lt): new $alu
+  creating $alu model for $lt$uart_rx.sv:112$67 ($lt): new $alu
+  creating $alu cell for $lt$uart_rx.sv:112$67: $auto$alumacc.cc:512:replace_alu$480
+  creating $alu cell for $lt$uart_rx.sv:123$70: $auto$alumacc.cc:512:replace_alu$485
+  creating $alu cell for $add$uart_rx.sv:124$71: $auto$alumacc.cc:512:replace_alu$490
+  creating $alu cell for $sub$uart_rx.sv:123$69: $auto$alumacc.cc:512:replace_alu$493
+  creating $alu cell for $add$uart_rx.sv:113$68: $auto$alumacc.cc:512:replace_alu$496
+  creating $alu cell for $neg$uart_rx.sv:111$64: $auto$alumacc.cc:512:replace_alu$499
+  creating $alu cell for $sub$uart_rx.sv:93$51: $auto$alumacc.cc:512:replace_alu$502
+  created 7 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module top:
+  created 0 $alu and 0 $macc cells.
+
+7.13. Executing SHARE pass (SAT-based resource sharing).
+
+7.14. Executing OPT pass (performing simple optimizations).
+
+7.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+<suppressed ~5 debug messages>
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 65 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~26 debug messages>
+
+7.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 65 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+7.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.14.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.14.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~26 debug messages>
+
+7.14.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.14.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 24 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 65 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.14.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.14.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.14.16. Finished fast OPT passes. (There is nothing left to do.)
+
+7.15. Executing MEMORY pass.
+
+7.15.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+7.15.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+7.15.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+  Analyzing $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.mem write port 0.
+  Analyzing $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.mem write port 0.
+
+7.15.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+7.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+Checking read port `\mem'[0] in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo': no output FF found.
+Checking read port address `\mem'[0] in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo': address FF has async set and/or reset, not supported.
+Checking read port `\mem'[0] in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model': merging output FF to cell.
+    Write port 0: non-transparent.
+
+7.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 1 unused cells and 9 unused wires.
+<suppressed ~2 debug messages>
+
+7.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+7.15.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+7.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+7.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.17. Executing OPT pass (performing simple optimizations).
+
+7.17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+<suppressed ~13 debug messages>
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+<suppressed ~7 debug messages>
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+<suppressed ~3 debug messages>
+Optimizing module top.
+
+7.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 20 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 61 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 1 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.17.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 14 unused wires.
+<suppressed ~3 debug messages>
+
+7.17.5. Finished fast OPT passes.
+
+7.18. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+Mapping memory \mem in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo:
+  created 16 $dff cells and 0 static cells of width 8.
+  read interface: 0 $dff and 15 $mux cells.
+  write interface: 16 write mux blocks.
+Mapping memory \mem in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model:
+  created 256 $dff cells and 0 static cells of width 8.
+Extracted data FF from read port 0 of $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.mem: $\mem$rdreg[0]
+  read interface: 1 $dff and 255 $mux cells.
+  write interface: 256 write mux blocks.
+
+7.19. Executing OPT pass (performing simple optimizations).
+
+7.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+<suppressed ~8 debug messages>
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+<suppressed ~16 debug messages>
+Optimizing module top.
+
+7.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 110 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 61 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 1336 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~825 debug messages>
+
+7.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.19.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 110 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 61 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 1336 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.19.6. Executing OPT_SHARE pass.
+
+7.19.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 556 unused wires.
+<suppressed ~2 debug messages>
+
+7.19.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.19.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.19.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~825 debug messages>
+
+7.19.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.19.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 110 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 61 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 1336 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.19.14. Executing OPT_SHARE pass.
+
+7.19.15. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $memory\mem[0]$522 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[0]).
+Adding EN signal on $memory\mem[1]$524 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[1]).
+Adding EN signal on $memory\mem[2]$526 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[2]).
+Adding EN signal on $memory\mem[3]$528 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[3]).
+Adding EN signal on $memory\mem[4]$530 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[4]).
+Adding EN signal on $memory\mem[5]$532 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[5]).
+Adding EN signal on $memory\mem[6]$534 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[6]).
+Adding EN signal on $memory\mem[7]$536 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[7]).
+Adding EN signal on $memory\mem[8]$538 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[8]).
+Adding EN signal on $memory\mem[9]$540 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[9]).
+Adding EN signal on $memory\mem[10]$542 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[10]).
+Adding EN signal on $memory\mem[11]$544 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[11]).
+Adding EN signal on $memory\mem[12]$546 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[12]).
+Adding EN signal on $memory\mem[13]$548 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[13]).
+Adding EN signal on $memory\mem[14]$550 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[14]).
+Adding EN signal on $memory\mem[15]$552 ($dff) from module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo (D = \wr_data, Q = \mem[15]).
+Adding EN signal on $memory\mem[0]$727 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[0]).
+Adding EN signal on $memory\mem[1]$729 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[1]).
+Adding EN signal on $memory\mem[2]$731 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[2]).
+Adding EN signal on $memory\mem[3]$733 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[3]).
+Adding EN signal on $memory\mem[4]$735 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[4]).
+Adding EN signal on $memory\mem[5]$737 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[5]).
+Adding EN signal on $memory\mem[6]$739 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[6]).
+Adding EN signal on $memory\mem[7]$741 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[7]).
+Adding EN signal on $memory\mem[8]$743 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[8]).
+Adding EN signal on $memory\mem[9]$745 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[9]).
+Adding EN signal on $memory\mem[10]$747 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[10]).
+Adding EN signal on $memory\mem[11]$749 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[11]).
+Adding EN signal on $memory\mem[12]$751 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[12]).
+Adding EN signal on $memory\mem[13]$753 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[13]).
+Adding EN signal on $memory\mem[14]$755 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[14]).
+Adding EN signal on $memory\mem[15]$757 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[15]).
+Adding EN signal on $memory\mem[16]$759 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[16]).
+Adding EN signal on $memory\mem[17]$761 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[17]).
+Adding EN signal on $memory\mem[18]$763 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[18]).
+Adding EN signal on $memory\mem[19]$765 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[19]).
+Adding EN signal on $memory\mem[20]$767 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[20]).
+Adding EN signal on $memory\mem[21]$769 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[21]).
+Adding EN signal on $memory\mem[22]$771 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[22]).
+Adding EN signal on $memory\mem[23]$773 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[23]).
+Adding EN signal on $memory\mem[24]$775 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[24]).
+Adding EN signal on $memory\mem[25]$777 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[25]).
+Adding EN signal on $memory\mem[26]$779 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[26]).
+Adding EN signal on $memory\mem[27]$781 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[27]).
+Adding EN signal on $memory\mem[28]$783 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[28]).
+Adding EN signal on $memory\mem[29]$785 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[29]).
+Adding EN signal on $memory\mem[30]$787 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[30]).
+Adding EN signal on $memory\mem[31]$789 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[31]).
+Adding EN signal on $memory\mem[32]$791 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[32]).
+Adding EN signal on $memory\mem[33]$793 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[33]).
+Adding EN signal on $memory\mem[34]$795 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[34]).
+Adding EN signal on $memory\mem[35]$797 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[35]).
+Adding EN signal on $memory\mem[36]$799 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[36]).
+Adding EN signal on $memory\mem[37]$801 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[37]).
+Adding EN signal on $memory\mem[38]$803 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[38]).
+Adding EN signal on $memory\mem[39]$805 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[39]).
+Adding EN signal on $memory\mem[40]$807 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[40]).
+Adding EN signal on $memory\mem[41]$809 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[41]).
+Adding EN signal on $memory\mem[42]$811 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[42]).
+Adding EN signal on $memory\mem[43]$813 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[43]).
+Adding EN signal on $memory\mem[44]$815 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[44]).
+Adding EN signal on $memory\mem[45]$817 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[45]).
+Adding EN signal on $memory\mem[46]$819 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[46]).
+Adding EN signal on $memory\mem[47]$821 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[47]).
+Adding EN signal on $memory\mem[48]$823 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[48]).
+Adding EN signal on $memory\mem[49]$825 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[49]).
+Adding EN signal on $memory\mem[50]$827 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[50]).
+Adding EN signal on $memory\mem[51]$829 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[51]).
+Adding EN signal on $memory\mem[52]$831 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[52]).
+Adding EN signal on $memory\mem[53]$833 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[53]).
+Adding EN signal on $memory\mem[54]$835 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[54]).
+Adding EN signal on $memory\mem[55]$837 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[55]).
+Adding EN signal on $memory\mem[56]$839 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[56]).
+Adding EN signal on $memory\mem[57]$841 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[57]).
+Adding EN signal on $memory\mem[58]$843 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[58]).
+Adding EN signal on $memory\mem[59]$845 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[59]).
+Adding EN signal on $memory\mem[60]$847 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[60]).
+Adding EN signal on $memory\mem[61]$849 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[61]).
+Adding EN signal on $memory\mem[62]$851 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[62]).
+Adding EN signal on $memory\mem[63]$853 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[63]).
+Adding EN signal on $memory\mem[64]$855 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[64]).
+Adding EN signal on $memory\mem[65]$857 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[65]).
+Adding EN signal on $memory\mem[66]$859 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[66]).
+Adding EN signal on $memory\mem[67]$861 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[67]).
+Adding EN signal on $memory\mem[68]$863 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[68]).
+Adding EN signal on $memory\mem[69]$865 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[69]).
+Adding EN signal on $memory\mem[70]$867 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[70]).
+Adding EN signal on $memory\mem[71]$869 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[71]).
+Adding EN signal on $memory\mem[72]$871 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[72]).
+Adding EN signal on $memory\mem[73]$873 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[73]).
+Adding EN signal on $memory\mem[74]$875 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[74]).
+Adding EN signal on $memory\mem[75]$877 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[75]).
+Adding EN signal on $memory\mem[76]$879 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[76]).
+Adding EN signal on $memory\mem[77]$881 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[77]).
+Adding EN signal on $memory\mem[78]$883 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[78]).
+Adding EN signal on $memory\mem[79]$885 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[79]).
+Adding EN signal on $memory\mem[80]$887 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[80]).
+Adding EN signal on $memory\mem[81]$889 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[81]).
+Adding EN signal on $memory\mem[82]$891 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[82]).
+Adding EN signal on $memory\mem[83]$893 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[83]).
+Adding EN signal on $memory\mem[84]$895 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[84]).
+Adding EN signal on $memory\mem[85]$897 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[85]).
+Adding EN signal on $memory\mem[86]$899 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[86]).
+Adding EN signal on $memory\mem[87]$901 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[87]).
+Adding EN signal on $memory\mem[88]$903 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[88]).
+Adding EN signal on $memory\mem[89]$905 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[89]).
+Adding EN signal on $memory\mem[90]$907 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[90]).
+Adding EN signal on $memory\mem[91]$909 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[91]).
+Adding EN signal on $memory\mem[92]$911 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[92]).
+Adding EN signal on $memory\mem[93]$913 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[93]).
+Adding EN signal on $memory\mem[94]$915 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[94]).
+Adding EN signal on $memory\mem[95]$917 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[95]).
+Adding EN signal on $memory\mem[96]$919 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[96]).
+Adding EN signal on $memory\mem[97]$921 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[97]).
+Adding EN signal on $memory\mem[98]$923 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[98]).
+Adding EN signal on $memory\mem[99]$925 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[99]).
+Adding EN signal on $memory\mem[100]$927 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[100]).
+Adding EN signal on $memory\mem[101]$929 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[101]).
+Adding EN signal on $memory\mem[102]$931 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[102]).
+Adding EN signal on $memory\mem[103]$933 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[103]).
+Adding EN signal on $memory\mem[104]$935 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[104]).
+Adding EN signal on $memory\mem[105]$937 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[105]).
+Adding EN signal on $memory\mem[106]$939 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[106]).
+Adding EN signal on $memory\mem[107]$941 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[107]).
+Adding EN signal on $memory\mem[108]$943 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[108]).
+Adding EN signal on $memory\mem[109]$945 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[109]).
+Adding EN signal on $memory\mem[110]$947 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[110]).
+Adding EN signal on $memory\mem[111]$949 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[111]).
+Adding EN signal on $memory\mem[112]$951 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[112]).
+Adding EN signal on $memory\mem[113]$953 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[113]).
+Adding EN signal on $memory\mem[114]$955 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[114]).
+Adding EN signal on $memory\mem[115]$957 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[115]).
+Adding EN signal on $memory\mem[116]$959 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[116]).
+Adding EN signal on $memory\mem[117]$961 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[117]).
+Adding EN signal on $memory\mem[118]$963 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[118]).
+Adding EN signal on $memory\mem[119]$965 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[119]).
+Adding EN signal on $memory\mem[120]$967 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[120]).
+Adding EN signal on $memory\mem[121]$969 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[121]).
+Adding EN signal on $memory\mem[122]$971 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[122]).
+Adding EN signal on $memory\mem[123]$973 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[123]).
+Adding EN signal on $memory\mem[124]$975 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[124]).
+Adding EN signal on $memory\mem[125]$977 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[125]).
+Adding EN signal on $memory\mem[126]$979 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[126]).
+Adding EN signal on $memory\mem[127]$981 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[127]).
+Adding EN signal on $memory\mem[128]$983 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[128]).
+Adding EN signal on $memory\mem[129]$985 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[129]).
+Adding EN signal on $memory\mem[130]$987 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[130]).
+Adding EN signal on $memory\mem[131]$989 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[131]).
+Adding EN signal on $memory\mem[132]$991 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[132]).
+Adding EN signal on $memory\mem[133]$993 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[133]).
+Adding EN signal on $memory\mem[134]$995 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[134]).
+Adding EN signal on $memory\mem[135]$997 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[135]).
+Adding EN signal on $memory\mem[136]$999 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[136]).
+Adding EN signal on $memory\mem[137]$1001 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[137]).
+Adding EN signal on $memory\mem[138]$1003 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[138]).
+Adding EN signal on $memory\mem[139]$1005 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[139]).
+Adding EN signal on $memory\mem[140]$1007 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[140]).
+Adding EN signal on $memory\mem[141]$1009 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[141]).
+Adding EN signal on $memory\mem[142]$1011 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[142]).
+Adding EN signal on $memory\mem[143]$1013 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[143]).
+Adding EN signal on $memory\mem[144]$1015 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[144]).
+Adding EN signal on $memory\mem[145]$1017 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[145]).
+Adding EN signal on $memory\mem[146]$1019 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[146]).
+Adding EN signal on $memory\mem[147]$1021 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[147]).
+Adding EN signal on $memory\mem[148]$1023 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[148]).
+Adding EN signal on $memory\mem[149]$1025 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[149]).
+Adding EN signal on $memory\mem[150]$1027 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[150]).
+Adding EN signal on $memory\mem[151]$1029 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[151]).
+Adding EN signal on $memory\mem[152]$1031 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[152]).
+Adding EN signal on $memory\mem[153]$1033 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[153]).
+Adding EN signal on $memory\mem[154]$1035 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[154]).
+Adding EN signal on $memory\mem[155]$1037 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[155]).
+Adding EN signal on $memory\mem[156]$1039 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[156]).
+Adding EN signal on $memory\mem[157]$1041 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[157]).
+Adding EN signal on $memory\mem[158]$1043 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[158]).
+Adding EN signal on $memory\mem[159]$1045 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[159]).
+Adding EN signal on $memory\mem[160]$1047 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[160]).
+Adding EN signal on $memory\mem[161]$1049 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[161]).
+Adding EN signal on $memory\mem[162]$1051 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[162]).
+Adding EN signal on $memory\mem[163]$1053 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[163]).
+Adding EN signal on $memory\mem[164]$1055 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[164]).
+Adding EN signal on $memory\mem[165]$1057 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[165]).
+Adding EN signal on $memory\mem[166]$1059 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[166]).
+Adding EN signal on $memory\mem[167]$1061 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[167]).
+Adding EN signal on $memory\mem[168]$1063 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[168]).
+Adding EN signal on $memory\mem[169]$1065 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[169]).
+Adding EN signal on $memory\mem[170]$1067 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[170]).
+Adding EN signal on $memory\mem[171]$1069 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[171]).
+Adding EN signal on $memory\mem[172]$1071 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[172]).
+Adding EN signal on $memory\mem[173]$1073 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[173]).
+Adding EN signal on $memory\mem[174]$1075 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[174]).
+Adding EN signal on $memory\mem[175]$1077 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[175]).
+Adding EN signal on $memory\mem[176]$1079 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[176]).
+Adding EN signal on $memory\mem[177]$1081 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[177]).
+Adding EN signal on $memory\mem[178]$1083 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[178]).
+Adding EN signal on $memory\mem[179]$1085 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[179]).
+Adding EN signal on $memory\mem[180]$1087 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[180]).
+Adding EN signal on $memory\mem[181]$1089 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[181]).
+Adding EN signal on $memory\mem[182]$1091 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[182]).
+Adding EN signal on $memory\mem[183]$1093 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[183]).
+Adding EN signal on $memory\mem[184]$1095 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[184]).
+Adding EN signal on $memory\mem[185]$1097 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[185]).
+Adding EN signal on $memory\mem[186]$1099 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[186]).
+Adding EN signal on $memory\mem[187]$1101 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[187]).
+Adding EN signal on $memory\mem[188]$1103 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[188]).
+Adding EN signal on $memory\mem[189]$1105 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[189]).
+Adding EN signal on $memory\mem[190]$1107 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[190]).
+Adding EN signal on $memory\mem[191]$1109 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[191]).
+Adding EN signal on $memory\mem[192]$1111 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[192]).
+Adding EN signal on $memory\mem[193]$1113 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[193]).
+Adding EN signal on $memory\mem[194]$1115 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[194]).
+Adding EN signal on $memory\mem[195]$1117 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[195]).
+Adding EN signal on $memory\mem[196]$1119 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[196]).
+Adding EN signal on $memory\mem[197]$1121 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[197]).
+Adding EN signal on $memory\mem[198]$1123 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[198]).
+Adding EN signal on $memory\mem[199]$1125 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[199]).
+Adding EN signal on $memory\mem[200]$1127 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[200]).
+Adding EN signal on $memory\mem[201]$1129 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[201]).
+Adding EN signal on $memory\mem[202]$1131 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[202]).
+Adding EN signal on $memory\mem[203]$1133 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[203]).
+Adding EN signal on $memory\mem[204]$1135 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[204]).
+Adding EN signal on $memory\mem[205]$1137 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[205]).
+Adding EN signal on $memory\mem[206]$1139 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[206]).
+Adding EN signal on $memory\mem[207]$1141 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[207]).
+Adding EN signal on $memory\mem[208]$1143 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[208]).
+Adding EN signal on $memory\mem[209]$1145 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[209]).
+Adding EN signal on $memory\mem[210]$1147 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[210]).
+Adding EN signal on $memory\mem[211]$1149 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[211]).
+Adding EN signal on $memory\mem[212]$1151 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[212]).
+Adding EN signal on $memory\mem[213]$1153 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[213]).
+Adding EN signal on $memory\mem[214]$1155 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[214]).
+Adding EN signal on $memory\mem[215]$1157 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[215]).
+Adding EN signal on $memory\mem[216]$1159 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[216]).
+Adding EN signal on $memory\mem[217]$1161 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[217]).
+Adding EN signal on $memory\mem[218]$1163 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[218]).
+Adding EN signal on $memory\mem[219]$1165 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[219]).
+Adding EN signal on $memory\mem[220]$1167 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[220]).
+Adding EN signal on $memory\mem[221]$1169 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[221]).
+Adding EN signal on $memory\mem[222]$1171 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[222]).
+Adding EN signal on $memory\mem[223]$1173 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[223]).
+Adding EN signal on $memory\mem[224]$1175 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[224]).
+Adding EN signal on $memory\mem[225]$1177 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[225]).
+Adding EN signal on $memory\mem[226]$1179 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[226]).
+Adding EN signal on $memory\mem[227]$1181 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[227]).
+Adding EN signal on $memory\mem[228]$1183 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[228]).
+Adding EN signal on $memory\mem[229]$1185 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[229]).
+Adding EN signal on $memory\mem[230]$1187 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[230]).
+Adding EN signal on $memory\mem[231]$1189 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[231]).
+Adding EN signal on $memory\mem[232]$1191 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[232]).
+Adding EN signal on $memory\mem[233]$1193 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[233]).
+Adding EN signal on $memory\mem[234]$1195 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[234]).
+Adding EN signal on $memory\mem[235]$1197 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[235]).
+Adding EN signal on $memory\mem[236]$1199 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[236]).
+Adding EN signal on $memory\mem[237]$1201 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[237]).
+Adding EN signal on $memory\mem[238]$1203 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[238]).
+Adding EN signal on $memory\mem[239]$1205 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[239]).
+Adding EN signal on $memory\mem[240]$1207 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[240]).
+Adding EN signal on $memory\mem[241]$1209 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[241]).
+Adding EN signal on $memory\mem[242]$1211 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[242]).
+Adding EN signal on $memory\mem[243]$1213 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[243]).
+Adding EN signal on $memory\mem[244]$1215 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[244]).
+Adding EN signal on $memory\mem[245]$1217 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[245]).
+Adding EN signal on $memory\mem[246]$1219 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[246]).
+Adding EN signal on $memory\mem[247]$1221 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[247]).
+Adding EN signal on $memory\mem[248]$1223 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[248]).
+Adding EN signal on $memory\mem[249]$1225 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[249]).
+Adding EN signal on $memory\mem[250]$1227 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[250]).
+Adding EN signal on $memory\mem[251]$1229 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[251]).
+Adding EN signal on $memory\mem[252]$1231 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[252]).
+Adding EN signal on $memory\mem[253]$1233 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[253]).
+Adding EN signal on $memory\mem[254]$1235 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[254]).
+Adding EN signal on $memory\mem[255]$1237 ($dff) from module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model (D = \wr_data, Q = \mem[255]).
+
+7.19.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 272 unused cells and 272 unused wires.
+<suppressed ~274 debug messages>
+
+7.19.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.19.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.19.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \uart_rx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~281 debug messages>
+
+7.19.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+  Optimizing cells in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+  Optimizing cells in module \uart_rx.
+  Optimizing cells in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+  Optimizing cells in module \top.
+Performed a total of 0 changes.
+
+7.19.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 94 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 6 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 61 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 1080 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.19.22. Executing OPT_SHARE pass.
+
+7.19.23. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.19.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+7.19.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.19.26. Finished fast OPT passes. (There is nothing left to do.)
+
+7.20. Executing TECHMAP pass (map to technology primitives).
+
+7.20.1. Executing Verilog-2005 frontend: /foss/tools/yosys/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/foss/tools/yosys/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+7.20.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $dffe.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $dff.
+Using extmapper simplemap for cells of type $mux.
+Using template $paramod$afd5dba8a212c7808f53e3850a5591fb0ed5c622\_90_alu for cells of type $alu.
+Using template $paramod$025d767fc934a3e7d59a671de523743ebaa07759\_90_alu for cells of type $alu.
+Using template $paramod$3ef7d3dd227da7627a99c5e5a6a4deb817573e39\_90_alu for cells of type $alu.
+Using template $paramod$d588c4475f18bc347201f0f2671d73b8c1e7b7ea\_90_alu for cells of type $alu.
+Using template $paramod$2af30114e9bd4ccb04dad757b3f0a8f6bf0615b0\_90_alu for cells of type $alu.
+Using template $paramod$2bd81f420048247ff6903399c560fe0f8bd48ccc\_90_alu for cells of type $alu.
+Using template $paramod$78e969f2586efcf3a5b0b0440bcca0db83d5cca2\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $ne.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $adff.
+Using template $paramod$constmap:aaa79bdfe7451deca7ae697c0784fd1c184bd8f2$paramod$40ccfd5a7f1418017a9af25543d0c43a198b5946\_90_shift_shiftx for cells of type $shift.
+Analyzing pattern of constant bits for this cell:
+Creating constmapped module `$paramod$constmap:ed202111594f0a1b622ac8dc4bd7c990ea27025c$paramod$40ccfd5a7f1418017a9af25543d0c43a198b5946\_90_shift_shiftx'.
+
+7.20.22. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$constmap:ed202111594f0a1b622ac8dc4bd7c990ea27025c$paramod$40ccfd5a7f1418017a9af25543d0c43a198b5946\_90_shift_shiftx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$8921.
+    dead port 2/2 on $mux $procmux$8927.
+    dead port 2/2 on $mux $procmux$8933.
+Removed 3 multiplexer ports.
+<suppressed ~1551 debug messages>
+
+7.20.23. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$constmap:ed202111594f0a1b622ac8dc4bd7c990ea27025c$paramod$40ccfd5a7f1418017a9af25543d0c43a198b5946\_90_shift_shiftx.
+<suppressed ~2 debug messages>
+Removed 0 unused cells and 9 unused wires.
+Using template $paramod$constmap:ed202111594f0a1b622ac8dc4bd7c990ea27025c$paramod$40ccfd5a7f1418017a9af25543d0c43a198b5946\_90_shift_shiftx for cells of type $shift.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000011 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000011 for cells of type $lcu.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000100000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000100000 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000010000 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010001 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000010001 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000100 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000100 for cells of type $lcu.
+Using template $paramod$c3cd1564c35d873179656addd6052d7ea8b6d991\_90_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000001000 for cells of type $lcu.
+Using template $paramod$672a140277c71df8314410f22acc08d55222c3c7\_90_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000101 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000101 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~1604 debug messages>
+
+7.21. Executing OPT pass (performing simple optimizations).
+
+7.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+<suppressed ~76 debug messages>
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+<suppressed ~67 debug messages>
+Optimizing module uart_rx.
+<suppressed ~845 debug messages>
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+Optimizing module top.
+
+7.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 398 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 391 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+<suppressed ~21 debug messages>
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 53 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 52 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 774 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 737 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 725 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 721 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Computing hashes of 720 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+<suppressed ~162 debug messages>
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 4664 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 6 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 62 cells.
+
+7.21.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 96 unused cells and 662 unused wires.
+<suppressed ~99 debug messages>
+
+7.21.5. Finished fast OPT passes.
+
+7.22. Executing ABC pass (technology mapping using ABC).
+
+7.22.1. Extracting gate netlist of module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo' to `<abc-temp-dir>/input.blif'..
+
+7.22.1.1. Executed ABC.
+Extracted 215 gates and 366 wires to a netlist network with 151 inputs and 44 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+7.22.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       59
+ABC RESULTS:            ANDNOT cells:        7
+ABC RESULTS:               MUX cells:      100
+ABC RESULTS:              NAND cells:       27
+ABC RESULTS:               NOR cells:       15
+ABC RESULTS:               NOT cells:        3
+ABC RESULTS:                OR cells:        5
+ABC RESULTS:             ORNOT cells:       13
+ABC RESULTS:              XNOR cells:       17
+ABC RESULTS:               XOR cells:        3
+ABC RESULTS:        internal signals:      171
+ABC RESULTS:           input signals:      151
+ABC RESULTS:          output signals:       44
+Removing temp directory.
+
+7.22.2. Extracting gate netlist of module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl' to `<abc-temp-dir>/input.blif'..
+
+7.22.2.1. Executed ABC.
+Extracted 17 gates and 26 wires to a netlist network with 9 inputs and 9 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+7.22.2.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        5
+ABC RESULTS:              NAND cells:        1
+ABC RESULTS:               NOT cells:        2
+ABC RESULTS:              XNOR cells:        1
+ABC RESULTS:               XOR cells:        6
+ABC RESULTS:        internal signals:        8
+ABC RESULTS:           input signals:        9
+ABC RESULTS:          output signals:        9
+Removing temp directory.
+
+7.22.3. Extracting gate netlist of module `\uart_rx' to `<abc-temp-dir>/input.blif'..
+
+7.22.3.1. Executed ABC.
+Extracted 598 gates and 649 wires to a netlist network with 49 inputs and 36 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+7.22.3.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       83
+ABC RESULTS:            ANDNOT cells:       26
+ABC RESULTS:               MUX cells:       14
+ABC RESULTS:              NAND cells:       53
+ABC RESULTS:               NOR cells:       20
+ABC RESULTS:               NOT cells:        3
+ABC RESULTS:                OR cells:       25
+ABC RESULTS:             ORNOT cells:        8
+ABC RESULTS:              XNOR cells:       24
+ABC RESULTS:               XOR cells:       25
+ABC RESULTS:        internal signals:      564
+ABC RESULTS:           input signals:       49
+ABC RESULTS:          output signals:       36
+Removing temp directory.
+
+7.22.4. Extracting gate netlist of module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model' to `<abc-temp-dir>/input.blif'..
+
+7.22.4.1. Executed ABC.
+Extracted 2608 gates and 4673 wires to a netlist network with 2065 inputs and 264 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+7.22.4.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:     1158
+ABC RESULTS:            ANDNOT cells:       94
+ABC RESULTS:               MUX cells:      871
+ABC RESULTS:              NAND cells:     1118
+ABC RESULTS:               NOR cells:      153
+ABC RESULTS:               NOT cells:        1
+ABC RESULTS:                OR cells:      519
+ABC RESULTS:             ORNOT cells:      774
+ABC RESULTS:        internal signals:     2344
+ABC RESULTS:           input signals:     2065
+ABC RESULTS:          output signals:      264
+Removing temp directory.
+
+7.22.5. Extracting gate netlist of module `\top' to `<abc-temp-dir>/input.blif'..
+
+7.22.5.1. Executed ABC.
+Extracted 2 gates and 4 wires to a netlist network with 2 inputs and 1 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+7.22.5.2. Re-integrating ABC results.
+ABC RESULTS:            ANDNOT cells:        1
+ABC RESULTS:        internal signals:        1
+ABC RESULTS:           input signals:        2
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+Removing global temp directory.
+
+7.23. Executing OPT pass (performing simple optimizations).
+
+7.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo.
+Optimizing module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl.
+Optimizing module uart_rx.
+Optimizing module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model.
+<suppressed ~31 debug messages>
+Optimizing module top.
+
+7.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Computing hashes of 417 cells of `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding duplicate cells in `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Finding identical cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Computing hashes of 40 cells of `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding duplicate cells in `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Finding identical cells in module `\uart_rx'.
+Computing hashes of 325 cells of `\uart_rx'.
+Finding duplicate cells in `\uart_rx'.
+Finding identical cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Computing hashes of 6744 cells of `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding duplicate cells in `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Finding identical cells in module `\top'.
+Computing hashes of 5 cells of `\top'.
+Finding duplicate cells in `\top'.
+Removed a total of 0 cells.
+
+7.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+Removed 0 unused cells and 3531 unused wires.
+<suppressed ~6 debug messages>
+
+7.23.5. Finished fast OPT passes.
+
+7.24. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `top'. Setting top module to top.
+
+7.24.1. Analyzing design hierarchy..
+Top module:  \top
+Used module:     $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+Used module:     $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+Used module:     $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+Used module:     \uart_rx
+
+7.24.2. Analyzing design hierarchy..
+Top module:  \top
+Used module:     $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+Used module:     $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+Used module:     $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+Used module:     \uart_rx
+Removed 0 unused modules.
+
+7.25. Printing statistics.
+
+=== $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      261 wires
+      435 wire bits
+       40 public wires
+      214 public wire bits
+       10 ports
+       24 port bits
+      417 cells
+        7   $_ANDNOT_
+       59   $_AND_
+      128   $_DFFE_PP_
+       39   $_DFF_PN0_
+        1   $_DFF_PN1_
+      100   $_MUX_
+       27   $_NAND_
+       15   $_NOR_
+        3   $_NOT_
+       13   $_ORNOT_
+        5   $_OR_
+       17   $_XNOR_
+        3   $_XOR_
+
+=== $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       17 wires
+       59 wire bits
+        9 public wires
+       37 public wire bits
+        8 ports
+       29 port bits
+       40 cells
+        5   $_AND_
+       24   $_DFFE_PN0N_
+        1   $_DFF_PN0_
+        1   $_NAND_
+        2   $_NOT_
+        1   $_XNOR_
+        6   $_XOR_
+
+=== uart_rx ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      277 wires
+      344 wire bits
+       13 public wires
+       63 public wire bits
+        7 ports
+       29 port bits
+      325 cells
+       26   $_ANDNOT_
+       83   $_AND_
+       36   $_DFFE_PN0P_
+        5   $_DFF_PN0_
+        3   $_DFF_PN1_
+       14   $_MUX_
+       53   $_NAND_
+       20   $_NOR_
+        3   $_NOT_
+        8   $_ORNOT_
+       25   $_OR_
+       24   $_XNOR_
+       25   $_XOR_
+
+=== $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     4943 wires
+     6770 wire bits
+      262 public wires
+     2082 public wire bits
+        6 ports
+       34 port bits
+     6744 cells
+       94   $_ANDNOT_
+     1158   $_AND_
+     2048   $_DFFE_PP_
+        8   $_DFF_P_
+      871   $_MUX_
+     1118   $_NAND_
+      153   $_NOR_
+        1   $_NOT_
+      774   $_ORNOT_
+      519   $_OR_
+
+=== top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       19 wires
+       76 wire bits
+       19 public wires
+       76 public wire bits
+       10 ports
+       39 port bits
+        1 cells
+        1   $_ANDNOT_
+        4 submodules
+        1   $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+        1   $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+        1   $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+        1   uart_rx
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+     7527 top
+      417 $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+     6744 $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+       40 $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+      325 uart_rx
+
+        +----------Count including submodules.
+        | 
+     5517 wires
+     7684 wire bits
+      343 public wires
+     2472 public wire bits
+       41 ports
+      155 port bits
+        - memories
+        - memory bits
+        - processes
+     7527 cells
+      128   $_ANDNOT_
+     1305   $_AND_
+       24   $_DFFE_PN0N_
+       36   $_DFFE_PN0P_
+     2176   $_DFFE_PP_
+       45   $_DFF_PN0_
+        4   $_DFF_PN1_
+        8   $_DFF_P_
+      985   $_MUX_
+     1199   $_NAND_
+      188   $_NOR_
+        9   $_NOT_
+      795   $_ORNOT_
+      549   $_OR_
+       42   $_XNOR_
+       34   $_XOR_
+        4 submodules
+        1   $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+        1   $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+        1   $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+        1   uart_rx
+
+7.26. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo...
+Checking module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl...
+Checking module uart_rx...
+Checking module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model...
+Checking module top...
+Found and reported 0 problems.
+
+8. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+  cell sky130_fd_sc_hd__dfxtp_1 (noninv, pins=3, area=20.02) is a direct match for cell type $_DFF_P_.
+  cell sky130_fd_sc_hd__dfrtn_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_NN0_.
+  cell sky130_fd_sc_hd__dfrtp_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_PN0_.
+  cell sky130_fd_sc_hd__dfstp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN1_.
+  cell sky130_fd_sc_hd__edfxtp_1 (noninv, pins=4, area=30.03) is a direct match for cell type $_DFFE_PP_.
+  cell sky130_fd_sc_hd__dfbbn_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_NNN_.
+  cell sky130_fd_sc_hd__dfbbp_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_PNN_.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \sky130_fd_sc_hd__dfxtp_1 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    \sky130_fd_sc_hd__dfrtn_1 _DFF_NN0_ (.CLK_N( C), .D( D), .Q( Q), .RESET_B( R));
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sky130_fd_sc_hd__dfrtp_1 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    \sky130_fd_sc_hd__dfstp_2 _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .SET_B( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    unmapped dff cell: $_DFFE_NN_
+    unmapped dff cell: $_DFFE_NP_
+    unmapped dff cell: $_DFFE_PN_
+    \sky130_fd_sc_hd__edfxtp_1 _DFFE_PP_ (.CLK( C), .D( D), .DE( E), .Q( Q));
+    \sky130_fd_sc_hd__dfbbn_1 _DFFSR_NNN_ (.CLK_N( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    \sky130_fd_sc_hd__dfbbp_1 _DFFSR_PNN_ (.CLK( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+8.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+<suppressed ~24 debug messages>
+Mapping DFF cells in module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo':
+  mapped 128 $_DFFE_PP_ cells to \sky130_fd_sc_hd__edfxtp_1 cells.
+  mapped 39 $_DFF_PN0_ cells to \sky130_fd_sc_hd__dfrtp_1 cells.
+  mapped 1 $_DFF_PN1_ cells to \sky130_fd_sc_hd__dfstp_2 cells.
+Mapping DFF cells in module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl':
+  mapped 25 $_DFF_PN0_ cells to \sky130_fd_sc_hd__dfrtp_1 cells.
+Mapping DFF cells in module `\uart_rx':
+  mapped 41 $_DFF_PN0_ cells to \sky130_fd_sc_hd__dfrtp_1 cells.
+  mapped 3 $_DFF_PN1_ cells to \sky130_fd_sc_hd__dfstp_2 cells.
+Mapping DFF cells in module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model':
+  mapped 2048 $_DFFE_PP_ cells to \sky130_fd_sc_hd__edfxtp_1 cells.
+  mapped 8 $_DFF_P_ cells to \sky130_fd_sc_hd__dfxtp_1 cells.
+Mapping DFF cells in module `\top':
+
+9. Executing ABC pass (technology mapping using ABC).
+
+9.1. Extracting gate netlist of module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo' to `<abc-temp-dir>/input.blif'..
+
+9.1.1. Executed ABC.
+Extracted 249 gates and 400 wires to a netlist network with 151 inputs and 44 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl 
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+9.1.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a211oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__and4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__mux2i_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__mux4_2 cells:       39
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__nor2b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__nor3b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nor4_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o211a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o211ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o31ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__xor3_1 cells:        1
+ABC RESULTS:        internal signals:      205
+ABC RESULTS:           input signals:      151
+ABC RESULTS:          output signals:       44
+Removing temp directory.
+
+9.2. Extracting gate netlist of module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl (1 files)
+
+9.2.1. Executed ABC.
+Extracted 39 gates and 72 wires to a netlist network with 33 inputs and 25 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl 
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+9.2.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand4b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:        1
+ABC RESULTS:        internal signals:       14
+ABC RESULTS:           input signals:       33
+ABC RESULTS:          output signals:       25
+Removing temp directory.
+
+9.3. Extracting gate netlist of module `\uart_rx' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl (1 files)
+
+9.3.1. Executed ABC.
+Extracted 317 gates and 375 wires to a netlist network with 58 inputs and 41 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl 
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+9.3.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a2111oi_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a211o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a211oi_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__a21boi_0 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a21o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:       13
+ABC RESULTS:   sky130_fd_sc_hd__a221oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a22o_1 cells:       10
+ABC RESULTS:   sky130_fd_sc_hd__a22oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__a31o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__a32o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a41oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and2_0 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__and4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_inputiso1p_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:       18
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nand4b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:       19
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__nor3b_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__nor4_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__nor4b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor4bb_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o211a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__o21ba_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o21bai_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o22a_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__o22ai_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__o2bb2ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or3_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or4b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:       13
+ABC RESULTS:        internal signals:      276
+ABC RESULTS:           input signals:       58
+ABC RESULTS:          output signals:       41
+Removing temp directory.
+
+9.4. Extracting gate netlist of module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl (1 files)
+
+9.4.1. Executed ABC.
+Extracted 4688 gates and 6753 wires to a netlist network with 2065 inputs and 264 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl 
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+9.4.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a211o_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__a211oi_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__a21boi_0 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a21o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:      229
+ABC RESULTS:   sky130_fd_sc_hd__a221o_1 cells:       33
+ABC RESULTS:   sky130_fd_sc_hd__a221oi_1 cells:       43
+ABC RESULTS:   sky130_fd_sc_hd__a22oi_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__a2bb2oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__a311o_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__a311oi_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__a31o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:       19
+ABC RESULTS:   sky130_fd_sc_hd__a32oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__and2_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__and3b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:       19
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_inputiso1p_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:       16
+ABC RESULTS:   sky130_fd_sc_hd__mux2i_1 cells:      167
+ABC RESULTS:   sky130_fd_sc_hd__mux4_2 cells:      397
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:      228
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:       17
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:      370
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__o211a_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o211ai_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:      152
+ABC RESULTS:   sky130_fd_sc_hd__o21bai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o221a_1 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__o221ai_1 cells:       33
+ABC RESULTS:   sky130_fd_sc_hd__o22a_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__o22ai_1 cells:       13
+ABC RESULTS:   sky130_fd_sc_hd__o311a_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o311ai_0 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__o31a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o31ai_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o32a_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__o32ai_1 cells:        1
+ABC RESULTS:        internal signals:     4424
+ABC RESULTS:           input signals:     2065
+ABC RESULTS:          output signals:      264
+Removing temp directory.
+
+9.5. Extracting gate netlist of module `\top' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl (1 files)
+
+9.5.1. Executed ABC.
+Extracted 1 gates and 3 wires to a netlist network with 2 inputs and 1 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 22 2026 11:38:08)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_80473efe.scl 
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+9.5.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:        1
+ABC RESULTS:        internal signals:        0
+ABC RESULTS:           input signals:        2
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+Removing global temp directory.
+Removed 0 unused cells and 7580 unused wires.
+
+10. Executing SPLITNETS pass (splitting up multi-bit signals).
+
+11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo..
+Finding unused cells or wires in module $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl..
+Finding unused cells or wires in module \uart_rx..
+Finding unused cells or wires in module $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model..
+Finding unused cells or wires in module \top..
+
+12. Executing Verilog backend.
+
+12.1. Executing BMUXMAP pass.
+
+12.2. Executing DEMUXMAP pass.
+Dumping module `$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo'.
+Dumping module `$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model'.
+Dumping module `$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl'.
+Dumping module `\top'.
+Dumping module `\uart_rx'.
+
+13. Printing statistics.
+
+=== $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      304        - wires
+      304        - wire bits
+      214        - public wires
+      214        - public wire bits
+       24        - ports
+       24        - port bits
+      286  6234.73 cells
+        1    7.507   sky130_fd_sc_hd__a211oi_1
+        2    10.01   sky130_fd_sc_hd__a21oi_1
+        2   12.512   sky130_fd_sc_hd__a31oi_1
+        2   12.512   sky130_fd_sc_hd__and3_1
+        1    8.758   sky130_fd_sc_hd__and4_1
+        1    3.754   sky130_fd_sc_hd__clkinv_1
+       39  975.936   sky130_fd_sc_hd__dfrtp_1
+        1   26.275   sky130_fd_sc_hd__dfstp_2
+      128 3.84E+03   sky130_fd_sc_hd__edfxtp_1
+        2   12.512   sky130_fd_sc_hd__lpflow_isobufsrc_1
+        1    10.01   sky130_fd_sc_hd__mux2i_1
+       39  878.342   sky130_fd_sc_hd__mux4_2
+        5   18.768   sky130_fd_sc_hd__nand2_1
+        2   12.512   sky130_fd_sc_hd__nand2b_1
+        3   15.014   sky130_fd_sc_hd__nand3_1
+        3   22.522   sky130_fd_sc_hd__nand3b_1
+        1    6.256   sky130_fd_sc_hd__nand4_1
+       15   56.304   sky130_fd_sc_hd__nor2_1
+        1    6.256   sky130_fd_sc_hd__nor2b_1
+        7   35.034   sky130_fd_sc_hd__nor3_1
+        2   15.014   sky130_fd_sc_hd__nor3b_1
+        2   12.512   sky130_fd_sc_hd__nor4_1
+        1    10.01   sky130_fd_sc_hd__o211a_1
+        1    7.507   sky130_fd_sc_hd__o211ai_1
+        1    7.507   sky130_fd_sc_hd__o21a_1
+        2    10.01   sky130_fd_sc_hd__o21ai_0
+        1    7.507   sky130_fd_sc_hd__o31ai_1
+       12  105.101   sky130_fd_sc_hd__xnor2_1
+        7   61.309   sky130_fd_sc_hd__xor2_1
+        1   23.773   sky130_fd_sc_hd__xor3_1
+
+   Chip area for module '$paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo': 6234.729600
+     of which used for sequential elements: 4845.897600 (77.72%)
+
+=== $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     3963        - wires
+     3963        - wire bits
+     2082        - public wires
+     2082        - public wire bits
+       34        - ports
+       34        - port bits
+     3937 7.91E+04 cells
+        6    52.55   sky130_fd_sc_hd__a211o_1
+        8   60.058   sky130_fd_sc_hd__a211oi_1
+        2   15.014   sky130_fd_sc_hd__a21boi_0
+        1    7.507   sky130_fd_sc_hd__a21o_1
+      229 1.15E+03   sky130_fd_sc_hd__a21oi_1
+       33  330.317   sky130_fd_sc_hd__a221o_1
+       43  376.611   sky130_fd_sc_hd__a221oi_1
+       12   90.086   sky130_fd_sc_hd__a22oi_1
+        3   26.275   sky130_fd_sc_hd__a2bb2oi_1
+        3   30.029   sky130_fd_sc_hd__a311o_1
+       12  105.101   sky130_fd_sc_hd__a311oi_1
+        2   17.517   sky130_fd_sc_hd__a31o_1
+       19  118.864   sky130_fd_sc_hd__a31oi_1
+        3   26.275   sky130_fd_sc_hd__a32oi_1
+        1    6.256   sky130_fd_sc_hd__and2_0
+        2   12.512   sky130_fd_sc_hd__and3_1
+        2   17.517   sky130_fd_sc_hd__and3b_1
+       19   71.318   sky130_fd_sc_hd__clkinv_1
+        8  160.154   sky130_fd_sc_hd__dfxtp_1
+     2048 6.15E+04   sky130_fd_sc_hd__edfxtp_1
+        1    6.256   sky130_fd_sc_hd__lpflow_inputiso1p_1
+       15    93.84   sky130_fd_sc_hd__lpflow_isobufsrc_1
+       16  180.173   sky130_fd_sc_hd__mux2_1
+      167 1.67E+03   sky130_fd_sc_hd__mux2i_1
+      397 8.94E+03   sky130_fd_sc_hd__mux4_2
+      228  855.821   sky130_fd_sc_hd__nand2_1
+       12   75.072   sky130_fd_sc_hd__nand2b_1
+       17   85.082   sky130_fd_sc_hd__nand3_1
+        2   15.014   sky130_fd_sc_hd__nand3b_1
+        1    6.256   sky130_fd_sc_hd__nand4_1
+      370 1.39E+03   sky130_fd_sc_hd__nor2_1
+       11   55.053   sky130_fd_sc_hd__nor3_1
+        2   20.019   sky130_fd_sc_hd__o211a_1
+        8   60.058   sky130_fd_sc_hd__o211ai_1
+        4   30.029   sky130_fd_sc_hd__o21a_1
+      152   760.73   sky130_fd_sc_hd__o21ai_0
+        1    7.507   sky130_fd_sc_hd__o21bai_1
+       11  123.869   sky130_fd_sc_hd__o221a_1
+       33  289.027   sky130_fd_sc_hd__o221ai_1
+        3   26.275   sky130_fd_sc_hd__o22a_1
+       13   81.328   sky130_fd_sc_hd__o22ai_1
+        2   20.019   sky130_fd_sc_hd__o311a_1
+        6    52.55   sky130_fd_sc_hd__o311ai_0
+        1    8.758   sky130_fd_sc_hd__o31a_1
+        4   30.029   sky130_fd_sc_hd__o31ai_1
+        3   30.029   sky130_fd_sc_hd__o32a_1
+        1    8.758   sky130_fd_sc_hd__o32ai_1
+
+   Chip area for module '$paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model': 79092.105600
+     of which used for sequential elements: 61659.136000 (77.96%)
+
+=== $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       69        - wires
+       69        - wire bits
+       37        - public wires
+       37        - public wire bits
+       29        - ports
+       29        - port bits
+       58  913.376 cells
+        1    6.256   sky130_fd_sc_hd__a31oi_1
+        1    3.754   sky130_fd_sc_hd__clkinv_1
+       25    625.6   sky130_fd_sc_hd__dfrtp_1
+        2   12.512   sky130_fd_sc_hd__lpflow_isobufsrc_1
+       15  168.912   sky130_fd_sc_hd__mux2_1
+        4   15.014   sky130_fd_sc_hd__nand2_1
+        1    5.005   sky130_fd_sc_hd__nand3_1
+        1    6.256   sky130_fd_sc_hd__nand4_1
+        1    8.758   sky130_fd_sc_hd__nand4b_1
+        6    52.55   sky130_fd_sc_hd__xnor2_1
+        1    8.758   sky130_fd_sc_hd__xor2_1
+
+   Chip area for module '$paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl': 913.376000
+     of which used for sequential elements: 625.600000 (68.49%)
+
+=== top ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       76        - wires
+       76        - wire bits
+       76        - public wires
+       76        - public wire bits
+       39        - ports
+       39        - port bits
+        1    6.256 cells
+        1    6.256   sky130_fd_sc_hd__lpflow_isobufsrc_1
+        4        - submodules
+        1        -   $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+        1        -   $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+        1        -   $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+        1        -   uart_rx
+
+   Chip area for module '\top': 6.256000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== uart_rx ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      286        - wires
+      286        - wire bits
+       63        - public wires
+       63        - public wire bits
+       29        - ports
+       29        - port bits
+      267 2.64E+03 cells
+        1    8.758   sky130_fd_sc_hd__a2111oi_0
+        1    8.758   sky130_fd_sc_hd__a211o_1
+        5   37.536   sky130_fd_sc_hd__a211oi_1
+        2   15.014   sky130_fd_sc_hd__a21boi_0
+        2   15.014   sky130_fd_sc_hd__a21o_1
+       13   65.062   sky130_fd_sc_hd__a21oi_1
+        1    8.758   sky130_fd_sc_hd__a221oi_1
+       10   87.584   sky130_fd_sc_hd__a22o_1
+        3   22.522   sky130_fd_sc_hd__a22oi_1
+        2   17.517   sky130_fd_sc_hd__a31o_1
+        7   43.792   sky130_fd_sc_hd__a31oi_1
+        2   20.019   sky130_fd_sc_hd__a32o_1
+        1    8.758   sky130_fd_sc_hd__a41oi_1
+        3   18.768   sky130_fd_sc_hd__and2_0
+        6   37.536   sky130_fd_sc_hd__and3_1
+        1    8.758   sky130_fd_sc_hd__and4_1
+        5   18.768   sky130_fd_sc_hd__clkinv_1
+       41 1.03E+03   sky130_fd_sc_hd__dfrtp_1
+        3   78.826   sky130_fd_sc_hd__dfstp_2
+        2   12.512   sky130_fd_sc_hd__lpflow_inputiso1p_1
+       15    93.84   sky130_fd_sc_hd__lpflow_isobufsrc_1
+       18  202.694   sky130_fd_sc_hd__mux2_1
+       15   56.304   sky130_fd_sc_hd__nand2_1
+        4   25.024   sky130_fd_sc_hd__nand2b_1
+        3   15.014   sky130_fd_sc_hd__nand3_1
+        1    7.507   sky130_fd_sc_hd__nand3b_1
+        2   12.512   sky130_fd_sc_hd__nand4_1
+        2   17.517   sky130_fd_sc_hd__nand4b_1
+       19   71.318   sky130_fd_sc_hd__nor2_1
+        7   35.034   sky130_fd_sc_hd__nor3_1
+        4   30.029   sky130_fd_sc_hd__nor3b_1
+        3   18.768   sky130_fd_sc_hd__nor4_1
+        1    8.758   sky130_fd_sc_hd__nor4b_1
+        2   20.019   sky130_fd_sc_hd__nor4bb_1
+        1    10.01   sky130_fd_sc_hd__o211a_1
+        3   22.522   sky130_fd_sc_hd__o21a_1
+       11   55.053   sky130_fd_sc_hd__o21ai_0
+        1    10.01   sky130_fd_sc_hd__o21ba_1
+        2   15.014   sky130_fd_sc_hd__o21bai_1
+        3   26.275   sky130_fd_sc_hd__o22a_1
+        7   43.792   sky130_fd_sc_hd__o22ai_1
+        1    8.758   sky130_fd_sc_hd__o2bb2ai_1
+        1    6.256   sky130_fd_sc_hd__or3_1
+        1    7.507   sky130_fd_sc_hd__or4_1
+        1    10.01   sky130_fd_sc_hd__or4b_1
+       15  131.376   sky130_fd_sc_hd__xnor2_1
+       13  113.859   sky130_fd_sc_hd__xor2_1
+
+   Chip area for module '\uart_rx': 2635.027200
+     of which used for sequential elements: 1104.809600 (41.93%)
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        |        +-Area including submodules.
+        |        | 
+     4549 8.89E+04 top
+      286  6234.73 $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+     3937 7.91E+04 $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+       58  913.376 $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+      267 2.64E+03 uart_rx
+
+        +----------Count including submodules.
+        |        +-Area including submodules.
+        |        | 
+     4698        - wires
+     4698        - wire bits
+     2472        - public wires
+     2472        - public wire bits
+      155        - ports
+      155        - port bits
+        -        - memories
+        -        - memory bits
+        -        - processes
+     4549 8.89E+04 cells
+        1    8.758   sky130_fd_sc_hd__a2111oi_0
+        7   61.309   sky130_fd_sc_hd__a211o_1
+       14  105.101   sky130_fd_sc_hd__a211oi_1
+        4   30.029   sky130_fd_sc_hd__a21boi_0
+        3   22.522   sky130_fd_sc_hd__a21o_1
+      244 1.22E+03   sky130_fd_sc_hd__a21oi_1
+       33  330.317   sky130_fd_sc_hd__a221o_1
+       44   385.37   sky130_fd_sc_hd__a221oi_1
+       10   87.584   sky130_fd_sc_hd__a22o_1
+       15  112.608   sky130_fd_sc_hd__a22oi_1
+        3   26.275   sky130_fd_sc_hd__a2bb2oi_1
+        3   30.029   sky130_fd_sc_hd__a311o_1
+       12  105.101   sky130_fd_sc_hd__a311oi_1
+        4   35.034   sky130_fd_sc_hd__a31o_1
+       29  181.424   sky130_fd_sc_hd__a31oi_1
+        2   20.019   sky130_fd_sc_hd__a32o_1
+        3   26.275   sky130_fd_sc_hd__a32oi_1
+        1    8.758   sky130_fd_sc_hd__a41oi_1
+        4   25.024   sky130_fd_sc_hd__and2_0
+       10    62.56   sky130_fd_sc_hd__and3_1
+        2   17.517   sky130_fd_sc_hd__and3b_1
+        2   17.517   sky130_fd_sc_hd__and4_1
+       26   97.594   sky130_fd_sc_hd__clkinv_1
+      105  2627.52   sky130_fd_sc_hd__dfrtp_1
+        4  105.101   sky130_fd_sc_hd__dfstp_2
+        8  160.154   sky130_fd_sc_hd__dfxtp_1
+     2176 6.53E+04   sky130_fd_sc_hd__edfxtp_1
+        3   18.768   sky130_fd_sc_hd__lpflow_inputiso1p_1
+       35   218.96   sky130_fd_sc_hd__lpflow_isobufsrc_1
+       49  551.779   sky130_fd_sc_hd__mux2_1
+      168 1.68E+03   sky130_fd_sc_hd__mux2i_1
+      436 9.82E+03   sky130_fd_sc_hd__mux4_2
+      252  945.907   sky130_fd_sc_hd__nand2_1
+       18  112.608   sky130_fd_sc_hd__nand2b_1
+       24  120.115   sky130_fd_sc_hd__nand3_1
+        6   45.043   sky130_fd_sc_hd__nand3b_1
+        5    31.28   sky130_fd_sc_hd__nand4_1
+        3   26.275   sky130_fd_sc_hd__nand4b_1
+      404 1.52E+03   sky130_fd_sc_hd__nor2_1
+        1    6.256   sky130_fd_sc_hd__nor2b_1
+       25   125.12   sky130_fd_sc_hd__nor3_1
+        6   45.043   sky130_fd_sc_hd__nor3b_1
+        5    31.28   sky130_fd_sc_hd__nor4_1
+        1    8.758   sky130_fd_sc_hd__nor4b_1
+        2   20.019   sky130_fd_sc_hd__nor4bb_1
+        4   40.038   sky130_fd_sc_hd__o211a_1
+        9   67.565   sky130_fd_sc_hd__o211ai_1
+        8   60.058   sky130_fd_sc_hd__o21a_1
+      165  825.792   sky130_fd_sc_hd__o21ai_0
+        1    10.01   sky130_fd_sc_hd__o21ba_1
+        3   22.522   sky130_fd_sc_hd__o21bai_1
+       11  123.869   sky130_fd_sc_hd__o221a_1
+       33  289.027   sky130_fd_sc_hd__o221ai_1
+        6    52.55   sky130_fd_sc_hd__o22a_1
+       20   125.12   sky130_fd_sc_hd__o22ai_1
+        1    8.758   sky130_fd_sc_hd__o2bb2ai_1
+        2   20.019   sky130_fd_sc_hd__o311a_1
+        6    52.55   sky130_fd_sc_hd__o311ai_0
+        1    8.758   sky130_fd_sc_hd__o31a_1
+        5   37.536   sky130_fd_sc_hd__o31ai_1
+        3   30.029   sky130_fd_sc_hd__o32a_1
+        1    8.758   sky130_fd_sc_hd__o32ai_1
+        1    6.256   sky130_fd_sc_hd__or3_1
+        1    7.507   sky130_fd_sc_hd__or4_1
+        1    10.01   sky130_fd_sc_hd__or4b_1
+       33  289.027   sky130_fd_sc_hd__xnor2_1
+       21  183.926   sky130_fd_sc_hd__xor2_1
+        1   23.773   sky130_fd_sc_hd__xor3_1
+        4 8.89E+04 submodules
+        1  6234.73   $paramod$823999466288c90fc66a121a247ad477cc27bb8d\async_fifo
+        1 7.91E+04   $paramod$b40cd9881f7aa1afa74c23f1d20f32b69c5c58b9\mem_model
+        1  913.376   $paramod$cd13ee327eebf399a5470d758b442c670a800fff\write_ctrl
+        1 2.64E+03   uart_rx
+
+   Chip area for top module '\top': 88881.494400
+     of which used for sequential elements: 68235.443200 (76.77%)
+
+End of script. Logfile hash: 131cb085a0, time: 3.01s, user: 0.82s, system: 0.14s, MEM: 71.88 MB peak
+Yosys 0.66 (git sha1 86f2ddebc-dirty, g++ 13.3.0-6ubuntu2~24.04.1 -fPIC -O3)
+Time spent: 68% 2x abc (1 sec), 6% 2x write_verilog (0 sec), ...
