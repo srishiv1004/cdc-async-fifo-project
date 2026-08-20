@@ -160,13 +160,17 @@ pattern everywhere:
 | Stage | Result |
 |---|---|
 | `apb_regs.sv` unit test | 6/6 checks passed (all three CDC techniques individually verified) |
-| `top_apb.sv` full integration | 6/6 checks passed - APB-configured baud rate, real UART reception, FIFO CDC crossing, memory write, status/byte-count readback, all end-to-end across 3 clock domains |
+| `top_apb.sv` full integration (simulation) | 6/6 checks passed - APB-configured baud rate, real UART reception, FIFO CDC crossing, memory write, status/byte-count readback, all end-to-end across 3 clock domains |
 | Lint (Verilator + Verible) | Clean, 0 warnings |
+| Place & route (LibreLane, sky130A) | **Complete.** Final die: 272.27 x 282.99 um (77,049.69 um^2) - verified sky130_fd_sc_hd cells (92/93) |
+| DRC / LVS / Antenna | **All passed**, first attempt - the PDK explicitly set from the start this time, no repeat of the earlier wrong-PDK bug |
 
-`top_apb.sv` is kept as a separate top-level from `top.sv` (the same
-pattern used for `top_sram.sv`), so the original, physically-verified
-RTL-to-GDSII deliverable remains untouched. Physical implementation of
-this variant has not been attempted.
+![top_apb chip layout in KLayout](top_apb_layout_klayout.png)
+
+`top_apb.sv`'s die (77,049.69 um^2) is larger than the base design's
+(56,910.77 um^2), as expected - it includes everything the base design has
+plus the full `apb_regs` block: two extra 2-flop synchronizer sets, a
+32-bit gray-coded counter, and a toggle-qualified config synchronizer.
 
 ## Design
 
