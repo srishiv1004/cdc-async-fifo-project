@@ -104,6 +104,70 @@ corruption if a synchronizing flip-flop samples mid-transition. This project
 uses the industry-standard approach (Cummings, SNUG 2002): gray-coded
 pointers, 2-flop synchronizers, and registered full/empty flags.
 
+## Follow-up: APB register interface
+
+A third clock domain (`PCLK`, the APB bus) was added on top of the base
+design, giving the UART a real, software-configurable baud rate instead of
+a synthesis-time constant, plus live status/telemetry registers. This is a
+second, independent CDC boundary (`apb_clk <-> wr_clk`) alongside the
+FIFO's own `wr_clk <-> rd_clk` boundary - `top_apb.sv` now has **three**
+clock domains and **two** distinct CDC crossings.
+
+### Register map (`apb_regs.sv`)
+
+| Address | Name | Access | Purpose |
+|---|---|---|---|
+| `0x00` | `BAUD_DIV` | R/W | UART clock divisor (`clks_per_bit`) |
+| `0x04` | `STATUS` | RO | bit0 = `framing_error`, bit1 = `fifo_wr_full` |
+| `0x08` | `BYTE_COUNT` | RO | Total bytes received since reset |
+
+### Three different CDC techniques, deliberately
+
+Different signal types need different synchronization approaches - using
+the wrong one for the wrong signal is itself a common real CDC bug, so
+this was built to demonstrate the distinction rather than reuse one
+pattern everywhere:
+
+1. **Single-bit level flags** (`framing_error`, `fifo_wr_full`) - plain
+   2-flop synchronizer, one per bit.
+2. **A free-running counter** (`BYTE_COUNT`) - the same gray-code + 2-flop
+   technique as `async_fifo.sv`'s pointers, reused deliberately since a
+   monotonic counter has the exact same "torn value" risk as a FIFO
+   pointer.
+3. **A rarely-changing, multi-bit config value** (`BAUD_DIV`), crossing in
+   the *reverse* direction (`apb_clk -> wr_clk`) - a toggle-qualified
+   synchronizer: the data bus is double-flopped like any quasi-static
+   signal, and a toggle bit is double-flopped alongside it; the
+   destination domain only accepts the new value once the toggle is
+   confirmed to have changed, guaranteeing the data was already stable
+   when sampled.
+
+### Bugs found and fixed
+
+1. **APB read race in the testbench.** `PRDATA` was sampled on the same
+   clock edge the DUT was still updating it via a nonblocking assignment,
+   capturing stale data every read. Fixed by adding one clock cycle of
+   margin before sampling.
+2. **Blocking-assignment race in stimulus.** Driving `rx_valid` with a
+   blocking assignment (`=`) at the exact moment of a clock edge created a
+   genuine, simulator-order-dependent race against the DUT's own clocked
+   logic, silently dropping ~10% of pulses. Fixed by switching to
+   nonblocking assignment (`<=`) for all testbench-driven DUT inputs - the
+   correct convention any synchronous stimulus should follow.
+
+### Verification status
+
+| Stage | Result |
+|---|---|
+| `apb_regs.sv` unit test | 6/6 checks passed (all three CDC techniques individually verified) |
+| `top_apb.sv` full integration | 6/6 checks passed - APB-configured baud rate, real UART reception, FIFO CDC crossing, memory write, status/byte-count readback, all end-to-end across 3 clock domains |
+| Lint (Verilator + Verible) | Clean, 0 warnings |
+
+`top_apb.sv` is kept as a separate top-level from `top.sv` (the same
+pattern used for `top_sram.sv`), so the original, physically-verified
+RTL-to-GDSII deliverable remains untouched. Physical implementation of
+this variant has not been attempted.
+
 ## Design
 
 - **`uart_rx.sv`** — UART receiver (8N1 framing), slow write-clock domain.
