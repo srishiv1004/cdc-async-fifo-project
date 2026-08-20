@@ -255,6 +255,38 @@ including the SRAM variant's honestly-reported DRC residual. Both remain
 kept as separate top-level variants (`top_sram.sv`, `top_apb.sv`) from the
 primary, fully-clean `top.sv` deliverable.
 
+## Static timing analysis (STA)
+
+Post-place-and-route STA results (worst slack, real parasitics-extracted),
+pulled directly from LibreLane's own `OpenROAD.STAPostPNR` step across
+multiple PVT corners - no manual OpenSTA run needed, this data is
+generated automatically as part of the flow.
+
+**All slack values are positive across every corner checked on both
+designs - timing is met with real margin, no violations.**
+
+| Corner | `top` setup WS | `top` hold WS | `top_apb` setup WS | `top_apb` hold WS |
+|---|---|---|---|---|
+| `nom_tt_025C_1v80` (typical) | 7.223 ns | 0.342 ns | 7.367 ns | 0.180 ns |
+| `max_ss_100C_1v60` (slow/hot/low-V) | 4.303 ns | 0.703 ns | 4.441 ns | 0.328 ns |
+| `min_ff_n40C_1v95` (fast/cold/high-V) | 8.318 ns | **0.195 ns** | 8.422 ns | **0.108 ns** |
+
+Two things worth understanding, not just reporting:
+
+- **Setup slack is tightest at the slow corner** (`max_ss`) - slower
+  transistors at high temperature and low voltage make every cell delay
+  larger, eating directly into setup margin.
+- **Hold slack is tightest at the fast corner** (`min_ff`) - faster
+  transistors at low temperature and high voltage let data race through
+  combinational logic too quickly, which is what threatens hold timing
+  specifically. This is the textbook-expected direction for both checks,
+  and matches what both designs show.
+
+`top_apb`'s worst hold margin (0.108 ns) is tighter than `top`'s
+(0.195 ns), consistent with the extra logic and paths introduced by
+`apb_regs` - still comfortably positive, but the number to watch first if
+this design were pushed to a faster process or tighter clock periods.
+
 ## Formal CDC verification
 
 The pointer/synchronizer logic was extracted from `async_fifo.sv` into its own
