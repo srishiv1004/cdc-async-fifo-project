@@ -247,12 +247,13 @@ um^2, which is the more representative number for the actual designed
 logic. Swapping in a sky130 SRAM macro and re-running synthesis/PnR as a
 before/after area comparison is a planned follow-up (see below).
 
-## Planned follow-up
+## Status
 
-- **SRAM macro comparison**: replace `mem_model.sv`'s flip-flop array with a
-  sky130 SRAM macro (e.g. `sky130_sram_1kbyte_1rw1r_8x1024_8`) and re-run
-  synthesis + place & route, to produce a documented before/after area
-  comparison quantifying the flip-flop-vs-SRAM area tradeoff.
+All planned follow-ups (SRAM macro comparison, APB register interface)
+have been completed and are documented in their own sections above,
+including the SRAM variant's honestly-reported DRC residual. Both remain
+kept as separate top-level variants (`top_sram.sv`, `top_apb.sv`) from the
+primary, fully-clean `top.sv` deliverable.
 
 ## Formal CDC verification
 
