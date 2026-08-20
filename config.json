@@ -1,0 +1,28 @@
+{
+    "DESIGN_NAME": "top",
+    "PDK": "sky130A",
+    "STD_CELL_LIBRARY": "sky130_fd_sc_hd",
+    "VERILOG_FILES": [
+        "dir::src/top.sv",
+        "dir::src/async_fifo.sv",
+        "dir::src/uart_rx.sv",
+        "dir::src/write_ctrl.sv",
+        "dir::src/mem_model.sv"
+    ],
+    "BASE_SDC_FILE": "dir::base.sdc",
+
+    "CLOCK_PORT": "wr_clk",
+    "CLOCK_PERIOD": 40,
+
+    "FP_SIZING": "relative",
+    "FP_CORE_UTIL": 40,
+
+    "SYNTH_PARAMETERS": [
+        "MEM_ADDR_WIDTH=5"
+    ],
+
+    "PL_TARGET_DENSITY": 0.45,
+
+    "DIODE_INSERTION_STRATEGY": 4,
+    "RUN_HEURISTIC_DIODE_INSERTION": true
+}

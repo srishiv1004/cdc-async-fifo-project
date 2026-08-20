@@ -18,3 +18,7 @@ runs/
 Thumbs.db
 *.mpf
 *.bak
+gray_ptr_sync/
+gray_ptr_sync_bmc/
+gray_ptr_sync_buggy/
+gray_ptr_sync_buggy_bmc/
